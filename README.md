@@ -1,10 +1,12 @@
 # Operation Triple Barrel
 
-Red team workshop for adversary simulation and/or emulation, in South Korea. Based on [Operation Double Barrel](https://asec.ahnlab.com/ko/94695/)
+[https://www.xn--hy1b43d247a.com/operation-triple-barrel/introduction](https://www.xn--hy1b43d247a.com/operation-triple-barrel/introduction)
 
-Covers scenario design, maldev, C2 enhancement, operations, and reporting.
+Can you recreate real-world malware in a few days using AI? If so, how good is it? This project (partially) recreates malwares and TTPs from the [Operation Double Barrel](https://asec.ahnlab.com/ko/94695/) report using AI-assisted development.
 
-Every project created for Operation Triple Barrel was vibe-coded in two days. So yeah, do NOT use in production. Educational purposes only. 
+Covers analysis, maldev/capdev, evasion, attacker infrastructure, and a short operation - done over a 3-day weekend in August 2026.
+
+Every project created for Operation Triple Barrel was vibe-coded in three* days. So yeah, do NOT use in production. Educational purposes only. 
 
 ## Structure
 
@@ -13,9 +15,9 @@ Every project created for Operation Triple Barrel was vibe-coded in two days. So
 - `barrel-shot/` - RDP/SSH tunneling tool (Go)
 - `financial-security-software-I/` - Intentionally vulnerable FSS for initial access
 - `operation` - Post-Ex BOFs and operation specific config files 
-- `yara` - Yara rules for various Operation Triple Barrel related tools, for responsible disclosure 
+- `yara` - Yara rules for various Operation Triple Barrel related tools, for responsible disclosure
 
-## Disclaimer 
+## Disclaimer
 
 This project is provided for educational purposes, authorized security research, and adversary simulation training. All source code and YARA detection rules are published together to promote defensive security awareness and responsible disclosure.
 
@@ -27,7 +29,7 @@ The author assumes no responsibility for any misuse, damage, or illegal activity
 
 작성자는 본 프로젝트의 사용으로 인해 발생하는 어떠한 오용, 피해, 또는 불법 행위에 대해서도 책임을 지지 않습니다. 사용자는 자신의 관할권에서 적용되는 모든 법률 및 규정을 준수할 책임이 있습니다.
 
-
 ## Reference
 
 - `./reference/operation-double-barrel.pdf`
+
