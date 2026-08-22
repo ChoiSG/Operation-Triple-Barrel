@@ -1,0 +1,8 @@
+name = "none"
+slot = "anti_emulation"
+fragment = "fragment.c.j2"
+required_imports = []
+requires = []
+conflicts = []
+exports = ["sg_anti_emulation_allows"]
+

@@ -1,0 +1,19 @@
+static ULONGLONG sg_xor_stream_next(ULONGLONG state)
+{
+    state ^= state << 13;
+    state ^= state >> 7;
+    state ^= state << 17;
+    return state;
+}
+
+static void sg_decode_copy(BYTE *destination, const BYTE *source, SIZE_T size)
+{
+    SIZE_T index;
+    ULONGLONG state = 0x{{ xor_stream_seed_hex }}ULL;
+    for (index = 0; index < size; index++) {
+        state = sg_xor_stream_next(state);
+        destination[index] = source[index] ^ (BYTE)state;
+    }
+}
+
+

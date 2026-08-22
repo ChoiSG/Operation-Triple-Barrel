@@ -1,0 +1,34 @@
+# build artifacts
+bin/
+output/
+*.obj
+
+# Crystal Palace distribution (jar is committed, rest is local)
+crystal-palace/
+
+# reference material (large, local only)
+reference/
+
+# runner binary (rebuild from tests/build/runner.c)
+tests/build/*.exe
+tests/build/*.dll
+tests/build/*.bin
+
+# old phase 1 smoke test (has hardcoded lab IPs)
+tests/phase1_smoke.sh
+
+# environment-specific credentials
+build.env
+docs/lab.md
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# misc
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

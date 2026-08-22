@@ -1,0 +1,11 @@
+name = "xor_stream"
+slot = "decoder"
+fragment = "fragment.c.j2"
+required_imports = []
+requires = []
+conflicts = []
+exports = ["sg_decode_copy"]
+
+[config]
+algorithm = "xorshift64-13-7-17-v1"
+

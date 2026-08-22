@@ -1,0 +1,15 @@
+static SG_NORETURN DWORD sg_fail(DWORD code)
+{
+    ExitProcess(code);
+}
+
+static SG_NORETURN DWORD sg_finish(DWORD code)
+{
+    ExitProcess(code);
+}
+
+int sg_entry(void)
+{
+    return (int)sg_carrier_run();
+}
+

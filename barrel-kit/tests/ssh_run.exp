@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+# Run a command on the Windows target via SSH.
+# Set SSH_TARGET_HOST, SSH_TARGET_USER, SSH_TARGET_PASS env vars, or edit below.
+
+set timeout 30
+set host [expr {[info exists env(SSH_TARGET_HOST)] ? $env(SSH_TARGET_HOST) : "CHANGEME"}]
+set user [expr {[info exists env(SSH_TARGET_USER)] ? $env(SSH_TARGET_USER) : "admin"}]
+set pass [expr {[info exists env(SSH_TARGET_PASS)] ? $env(SSH_TARGET_PASS) : "CHANGEME"}]
+set cmd [lindex $argv 0]
+
+spawn ssh -o StrictHostKeyChecking=no $user@$host $cmd
+expect {
+    "password:" { send "$pass\r"; exp_continue }
+    "Password:" { send "$pass\r"; exp_continue }
+    eof
+}
+foreach {pid spawnid os_error_flag value} [wait] break
+exit $value

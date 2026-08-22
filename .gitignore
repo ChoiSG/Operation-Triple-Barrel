@@ -1,0 +1,30 @@
+SuperGiga/*
+SuperGiga
+./SuperGiga
+./SuperGiga/*
+
+# Working documentation
+**/PLAN.md
+**/plan.md
+**/PROGRESS.md
+**/TESTS.md
+**/FIXES.md
+**/lab.md
+**/AGENTS.md
+**/PLAYBOOK.md
+
+# Build artifacts
+*.o
+*.bin
+*.dll 
+
+blog/*
+blog 
+./blog
+./blog/*
+
+operation/Adaptix-FIXES.md
+operation/adaptix-https-listener.json
+operation/adaptix-profile.yaml
+operation/nginx.conf
+operation/playbook.md

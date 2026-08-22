@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.exe binary
+*.dll binary
+*.zip binary
+*.jar binary
+*.axs binary

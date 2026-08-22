@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "name": "AppleWin-x64.exe",
+  "release": "v1.32.0.0",
+  "url": "https://github.com/AppleWin/AppleWin/releases/download/v1.32.0.0/AppleWin1.32.0.0.zip",
+  "homepage": "https://github.com/AppleWin/AppleWin/releases/tag/v1.32.0.0",
+  "archive": {
+    "size": 4475279,
+    "sha256": "9F57F693AC082C966D37C6763109167EB958CED1814D96A9561FB380D23207ED",
+    "member": "AppleWin-x64.exe"
+  },
+  "executable": {
+    "size": 3154944,
+    "sha256": "A0AD41367CA10651EC7C455915CDE676B1D8EE8480C2311583163A110D46A699"
+  }
+}

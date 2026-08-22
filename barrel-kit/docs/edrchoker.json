@@ -1,0 +1,2132 @@
+{
+  "_index": ".internal.alerts-security.alerts-default-000001",
+  "_id": "7c68ae957366f5feb11662d7627762bfaa7355dc3574b1a1e9135bee3754b07c",
+  "_score": 1,
+  "_source": {
+    "kibana.alert.rule.execution.timestamp": "2026-08-22T00:40:17.996Z",
+    "kibana.alert.start": "2026-08-22T00:40:17.996Z",
+    "kibana.alert.last_detected": "2026-08-22T00:40:17.996Z",
+    "kibana.version": "9.4.2",
+    "kibana.alert.rule.parameters": {
+      "description": "Generates a detection alert each time an Elastic Defend alert is received. Enabling this rule allows you to immediately begin investigating your Endpoint alerts.",
+      "risk_score": 47,
+      "severity": "medium",
+      "note": "## Triage and analysis\n\n> **Disclaimer**:\n> This investigation guide was created using generative AI technology and has been reviewed to improve its accuracy and relevance. While every effort has been made to ensure its quality, we recommend validating the content and adapting it to suit your specific environment and operational needs.\n\n### Investigating Endpoint Security (Elastic Defend)\n\nElastic Defend is a robust endpoint security solution that monitors and protects systems by analyzing events and generating alerts for suspicious activities. Adversaries may exploit endpoints by executing unauthorized code or manipulating system processes. The detection rule leverages event data to identify alerts from Elastic Defend, focusing on potential threats while excluding non-relevant modules, thus enabling timely investigation of endpoint anomalies.\n\n### Possible investigation steps\n\n- Review the alert details to understand the specific event.kind:alert and event.module: endpoint that triggered the alert, ensuring it is not related to the excluded endgame module.\n- Examine the timeline of events leading up to the alert to identify any unusual or unauthorized activities, such as unexpected process executions or system changes.\n- Correlate the alert with other security events or logs from the same endpoint to gather additional context and determine if there is a pattern of suspicious behavior.\n- Investigate the source and destination of any network connections associated with the alert to identify potential command and control activity or data exfiltration attempts.\n- Check for any recent changes or updates to the endpoint's software or configuration that could explain the alert, ensuring they are legitimate and authorized.\n- Assess the risk score and severity of the alert in conjunction with other alerts from the same endpoint to prioritize the investigation and response efforts.\n\n### False positive analysis\n\n- Alerts triggered by routine software updates can be false positives. Users can create exceptions for known update processes to prevent unnecessary alerts.\n- System maintenance activities, such as scheduled scans or backups, may generate alerts. Exclude these activities by identifying their specific event signatures and adding them to the exception list.\n- Legitimate administrative actions, like remote desktop sessions or script executions by IT staff, might be flagged. Define exceptions for these actions by correlating them with authorized user accounts or IP addresses.\n- Frequent alerts from non-malicious applications that interact with system processes can be excluded by whitelisting these applications based on their hash or path.\n- Network monitoring tools that simulate attack patterns for testing purposes may trigger alerts. Exclude these tools by specifying their known behaviors and IP ranges in the exception settings.\n\n### Response and remediation\n\n- Isolate the affected endpoint immediately to prevent further unauthorized access or lateral movement within the network.\n- Analyze the alert details to identify the specific unauthorized code or process manipulation involved, and terminate any malicious processes identified.\n- Remove any unauthorized code or files from the affected endpoint, ensuring that all traces of the threat are eradicated.\n- Conduct a thorough review of system logs and event data to identify any additional indicators of compromise or related suspicious activities.\n- Update endpoint security configurations and signatures to prevent similar threats from exploiting the same vulnerabilities in the future.\n- Restore the affected endpoint from a known good backup if necessary, ensuring that the system is free from any residual threats.\n- Escalate the incident to the security operations center (SOC) or relevant team for further analysis and to determine if additional systems may be affected.",
+      "license": "Elastic License v2",
+      "rule_name_override": "message",
+      "timestamp_override": "event.ingested",
+      "author": [
+        "Elastic"
+      ],
+      "false_positives": [],
+      "from": "now-2m",
+      "rule_id": "9a1a2dae-0b5f-4c3d-8305-a268d404c306",
+      "max_signals": 1000,
+      "risk_score_mapping": [
+        {
+          "field": "event.risk_score",
+          "operator": "equals",
+          "value": ""
+        }
+      ],
+      "severity_mapping": [
+        {
+          "field": "event.severity",
+          "operator": "equals",
+          "severity": "low",
+          "value": "21"
+        },
+        {
+          "field": "event.severity",
+          "operator": "equals",
+          "severity": "medium",
+          "value": "47"
+        },
+        {
+          "field": "event.severity",
+          "operator": "equals",
+          "severity": "high",
+          "value": "73"
+        },
+        {
+          "field": "event.severity",
+          "operator": "equals",
+          "severity": "critical",
+          "value": "99"
+        }
+      ],
+      "threat": [],
+      "to": "now",
+      "references": [],
+      "version": 108,
+      "exceptions_list": [
+        {
+          "id": "endpoint_list",
+          "list_id": "endpoint_list",
+          "type": "endpoint",
+          "namespace_type": "agnostic"
+        }
+      ],
+      "immutable": true,
+      "rule_source": {
+        "type": "external",
+        "is_customized": false,
+        "customized_fields": [],
+        "has_base_version": true
+      },
+      "related_integrations": [
+        {
+          "package": "endpoint",
+          "version": "^9.0.0"
+        }
+      ],
+      "required_fields": [
+        {
+          "name": "event.kind",
+          "type": "keyword",
+          "ecs": true
+        },
+        {
+          "name": "event.module",
+          "type": "keyword",
+          "ecs": true
+        }
+      ],
+      "setup": "## Setup\n\n### Elastic Defend Alerts\nIf this rule is disabled, you will not receive alerts for Elastic Defend alerts. This rule is designed to capture all alerts generated by Elastic Defend. For more granular alerting, consider using additional prebuilt-rules that capture specific Elastic Defend alerts.\n\nIf this rule is enabled, along with the related rules listed below, you will receive duplicate alerts for the same events. To avoid this, it is recommended to disable this generic rule and enable the more specific rules that capture these alerts separately.\n\nRelated rules:\n- Behavior - Detected - Elastic Defend (UUID: 0f615fe4-eaa2-11ee-ae33-f661ea17fbce)\n- Behavior - Prevented - Elastic Defend (UUID: eb804972-ea34-11ee-a417-f661ea17fbce)\n- Malicious File - Detected - Elastic Defend (UUID: f2c3caa6-ea34-11ee-a417-f661ea17fbce)\n- Malicious File - Prevented - Elastic Defend (UUID: f87e6122-ea34-11ee-a417-f661ea17fbce)\n- Memory Threat - Detected - Elastic Defend (UUID: 017de1e4-ea35-11ee-a417-f661ea17fbce)\n- Memory Threat - Prevented - Elastic Defend (UUID: 06f3a26c-ea35-11ee-a417-f661ea17fbce)\n- Ransomware - Detected - Elastic Defend (UUID: 0c74cd7e-ea35-11ee-a417-f661ea17fbce)\n- Ransomware - Prevented - Elastic Defend (UUID: 10f3d520-ea35-11ee-a417-f661ea17fbce)\n\n### Additional notes\n\nFor information on troubleshooting the maximum alerts warning please refer to this [guide](https://www.elastic.co/guide/en/security/current/alerts-ui-monitor.html#troubleshoot-max-alerts).\n",
+      "type": "query",
+      "language": "kuery",
+      "index": [
+        "logs-endpoint.alerts-*"
+      ],
+      "query": "event.kind:alert and event.module:(endpoint and not endgame)\n"
+    },
+    "kibana.alert.rule.category": "Custom Query Rule",
+    "kibana.alert.rule.consumer": "siem",
+    "kibana.alert.rule.execution.uuid": "4df126b8-5b55-420d-844b-e69d71176d20",
+    "kibana.alert.rule.name": "Malicious Behavior Detection Alert: Suspicious WMI Library Load",
+    "kibana.alert.rule.producer": "siem",
+    "kibana.alert.rule.revision": 0,
+    "kibana.alert.rule.rule_type_id": "siem.queryRule",
+    "kibana.alert.rule.uuid": "8711c2dc-2206-416a-b2d0-ef7a7e45ff55",
+    "kibana.space_ids": [
+      "default"
+    ],
+    "kibana.alert.rule.tags": [
+      "Data Source: Elastic Defend",
+      "Resources: Investigation Guide"
+    ],
+    "@timestamp": "2026-08-22T00:40:17.959Z",
+    "agent": {
+      "build": {
+        "original": "version: 9.4.2, compiled: Wed May 20 10:00:00 2026, branch: HEAD, commit: aa576fbd1e995fc6e32ff5c1689d2a63674cb4ff"
+      },
+      "id": "4487f568-5e75-4821-afa6-5fa3728b18bd",
+      "type": "endpoint",
+      "version": "9.4.2"
+    },
+    "process": {
+      "Ext": {
+        "code_signature": [
+          {
+            "thumbprint_sha256": "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518",
+            "trusted": false,
+            "subject_name": "AppleWin",
+            "exists": true,
+            "status": "errorUntrustedRoot"
+          }
+        ]
+      },
+      "parent": {
+        "Ext": {
+          "code_signature": [
+            {
+              "thumbprint_sha256": "a6a3d72f444aa7a05587ed6c275f07cc13949a6d3d6b8bb311cfb704dd4f9e14",
+              "trusted": true,
+              "subject_name": "Microsoft Windows",
+              "exists": true,
+              "status": "trusted"
+            }
+          ]
+        },
+        "args": [
+          "C:\\Windows\\Explorer.EXE"
+        ],
+        "code_signature": {
+          "thumbprint_sha256": "a6a3d72f444aa7a05587ed6c275f07cc13949a6d3d6b8bb311cfb704dd4f9e14",
+          "trusted": true,
+          "subject_name": "Microsoft Windows",
+          "exists": true,
+          "status": "trusted"
+        },
+        "name": "explorer.exe",
+        "pid": 14964,
+        "args_count": 1,
+        "entity_id": "BkSmuFMHR7aR1uACM8Y+3A",
+        "command_line": "C:\\Windows\\Explorer.EXE",
+        "executable": "C:\\Windows\\explorer.exe"
+      },
+      "pid": 10500,
+      "working_directory": "C:\\ProgramData\\imonclient\\",
+      "thread": {
+        "Ext": {
+          "call_stack_summary": "ntdll.dll|kernelbase.dll|combase.dll|Unbacked",
+          "call_stack_contains_unbacked": true,
+          "call_stack": [
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!NtMapViewOfSection+0x14"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrStandardizeSystemPath+0x910"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x526"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x3c"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!RtlpGetDeviceFamilyInfoEnum+0x850"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x488"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x207"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrpResGetMappingSize+0x1458"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrGetDllHandleEx+0x568"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrLoadDll+0x106"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\KernelBase.dll!LoadLibraryExW+0x172"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2871"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2768"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x251e"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2289"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!RoGetActivationFactory+0x1720"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1831"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x11d0"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1a1c"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!RoRegisterForApartmentShutdown+0x648"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoDecrementMTAUsage+0x92c"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoSwitchCallContext+0x3e9e"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!HWND_UserUnmarshal+0x264"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x10c8"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0xd3a"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x2df"
+            },
+            {
+              "symbol_info": "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x10c"
+            },
+            {
+              "symbol_info": "Unbacked+0xad",
+              "callsite_trailing_bytes": "89c385c0791a4189c0488d155ffffcffb90d000000ff1558fff8ffe9ea000000488d0d74fffcffff154efff8ff4889c74885c00f84a4000000488b0e4531d245",
+              "protection": "RWX",
+              "callsite_leading_bytes": "c9488944243031c048897c2440c74424280300000089442420ff1584fff8ff48897424204c8d0dd812fdff31d241b801000000488d0dd912fdffff156bfff8ff"
+            }
+          ]
+        }
+      },
+      "entity_id": "ZvQpucKhCAX1zXB097nSbw",
+      "executable": "C:\\ProgramData\\imonclient\\AppleWin.exe",
+      "uptime": 582,
+      "args": [
+        "C:\\ProgramData\\imonclient\\AppleWin.exe"
+      ],
+      "code_signature": {
+        "thumbprint_sha256": "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518",
+        "trusted": false,
+        "subject_name": "AppleWin",
+        "exists": true,
+        "status": "errorUntrustedRoot"
+      },
+      "pe": {
+        "imphash": "c99d9eab70bb0f1a392814ad1f65fc4d",
+        "original_file_name": "APPLEWIN.EXE"
+      },
+      "name": "AppleWin.exe",
+      "args_count": 1,
+      "command_line": "\"C:\\ProgramData\\imonclient\\AppleWin.exe\" ",
+      "hash": {
+        "sha256": "a365110190527750900161bda7d1faf091178b3e8e7f2d1b71e6ba39f564453a"
+      }
+    },
+    "dll": {
+      "Ext": {
+        "code_signature": [
+          {
+            "thumbprint_sha256": "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14",
+            "trusted": true,
+            "subject_name": "Microsoft Windows",
+            "exists": true,
+            "status": "trusted"
+          }
+        ],
+        "size": 65536,
+        "relative_file_creation_time": 166897486.5810567,
+        "load_index": 1,
+        "relative_file_name_modify_time": 3201154.6159402
+      },
+      "path": "C:\\Windows\\System32\\wbem\\wbemprox.dll",
+      "code_signature": {
+        "thumbprint_sha256": "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14",
+        "trusted": true,
+        "subject_name": "Microsoft Windows",
+        "exists": true,
+        "status": "trusted"
+      },
+      "pe": {
+        "file_version": "10.0.20348.1 (WinBuild.160101.0800)",
+        "imphash": "e3ff7b01badb5f37f70266a24aec8ff7",
+        "original_file_name": "wbemprox.dll"
+      },
+      "name": "wbemprox.dll",
+      "hash": {
+        "sha256": "a8f7b39818a1bc5cb1e42e49570d01ddb3c10b6af7a848f768ad67dfe381656c"
+      }
+    },
+    "rule": {
+      "name": "Suspicious WMI Library Load",
+      "ruleset": "production",
+      "description": "Identifies the load of Windows Management Instrumentation related libraries and from suspicious call stack.",
+      "id": "3cd302aa-098b-4da6-bf20-8d37efe5f861",
+      "version": "1.0.6"
+    },
+    "message": "Malicious Behavior Detection Alert: Suspicious WMI Library Load",
+    "Endpoint": {
+      "policy": {
+        "applied": {
+          "name": "elastic-defend-1",
+          "id": "9aa7cb4c-f452-41c7-b3aa-56d20f0757dd",
+          "endpoint_policy_version": "6",
+          "version": "8",
+          "artifacts": {
+            "global": {
+              "manifest_type": "stable",
+              "identifiers": [
+                {
+                  "sha256": "1aed8b2e7de5adcf41a2628829e2b168f33577f3152beb129b97790dd6560af6",
+                  "name": "diagnostic-configuration-v1"
+                },
+                {
+                  "sha256": "338eb3e0d0c2b7efcd291ca270a0a6188d3632a25c7a8dc5d020fdb44293e12f",
+                  "name": "diagnostic-endpointpe-v4-blocklist"
+                },
+                {
+                  "sha256": "cd8996c573cf2439d2148ede1c7a982e241c9566a8b1932e6d0f7f8dd282227d",
+                  "name": "diagnostic-endpointpe-v4-exceptionlist"
+                },
+                {
+                  "sha256": "251b8b5d2dc530f02d09b19a11bcb20773cbd98e54d4f78394040390ea66aa9c",
+                  "name": "diagnostic-endpointpe-v4-model"
+                },
+                {
+                  "sha256": "9ee94137b54a99029eaa94aa0687937868947c5c68689959e923d0ded360ddd1",
+                  "name": "diagnostic-malware-signature-v1-windows"
+                },
+                {
+                  "sha256": "9636fb1bda16d4dc236d40d2aeb379f30d81276028e9b3048002e3ca6a83dfb5",
+                  "name": "diagnostic-ransomware-v1-windows"
+                },
+                {
+                  "sha256": "c357c6255e54ce16dcec0a955de00148dcdab591c6cb3d18bada7c49e2076f80",
+                  "name": "diagnostic-rules-windows-v1"
+                },
+                {
+                  "sha256": "fba2e7e84d4191bed67277a84eb2782ad02bb08e21d791dd2cc585f78c1c06b7",
+                  "name": "endpointpe-v4-blocklist"
+                },
+                {
+                  "sha256": "9b8056d06a50b91fdd0d64244ebf89374b113bc115209dedbe6811d0e0a92243",
+                  "name": "endpointpe-v4-exceptionlist"
+                },
+                {
+                  "sha256": "fb2d49a96f8b4a4eb48f91864a9093549b9c726d7bef1f3544f588f17aab893d",
+                  "name": "endpointpe-v4-model"
+                },
+                {
+                  "sha256": "47377ffccbb4b6e921da538485f4d8f2cc11ba10bc9186b1258135e3e9bfca28",
+                  "name": "global-configuration-v1"
+                },
+                {
+                  "sha256": "2a30e0a996468b99cf2bd71629713d866ba7c51c24aa54c57c467122c8d55ab4",
+                  "name": "global-eventfilterlist-windows-v1"
+                },
+                {
+                  "sha256": "7c113026c4e126c26e55fdb210216c8cbbe4bc36c4f77c35533937ce2bd75bc9",
+                  "name": "global-exceptionlist-windows"
+                },
+                {
+                  "sha256": "aaeab218a20828574c347e88ecb4eb411ffca9e8496c484327b2213f49e1dc9e",
+                  "name": "global-trustlist-windows-v1"
+                },
+                {
+                  "sha256": "3a5d88571ff07d052ea9a609e58a21db6cdbd735eccc1033cc551cd542e69092",
+                  "name": "production-malware-signature-v1-windows"
+                },
+                {
+                  "sha256": "e3efc40c7e3fc0a590a074011abf990ab120f9f182b3dbca7b32ee58d0e5c3aa",
+                  "name": "production-ransomware-v1-windows"
+                },
+                {
+                  "sha256": "c510500f641bb867d54f5e9eff560a2d37423a75e96b685ea7a28dea69b10b18",
+                  "name": "production-rules-windows-v1"
+                },
+                {
+                  "sha256": "6fd383db741c2dbbd6f1a0d455c8461e9f78356cbb441c48c6c92e3429415a44",
+                  "name": "tamper-protection-config-v1"
+                }
+              ],
+              "channel": "default",
+              "update_age": 1,
+              "version": "1.0.2016+2026-08-20-daily",
+              "snapshot": "latest"
+            },
+            "user": {
+              "identifiers": [
+                {
+                  "sha256": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+                  "name": "endpoint-blocklist-windows-v1"
+                },
+                {
+                  "sha256": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+                  "name": "endpoint-eventfilterlist-windows-v1"
+                },
+                {
+                  "sha256": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+                  "name": "endpoint-exceptionlist-windows-v1"
+                },
+                {
+                  "sha256": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+                  "name": "endpoint-hostisolationexceptionlist-windows-v1"
+                },
+                {
+                  "sha256": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+                  "name": "endpoint-trusteddevicelist-windows-v1"
+                },
+                {
+                  "sha256": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+                  "name": "endpoint-trustlist-windows-v1"
+                }
+              ],
+              "version": "1.0.0"
+            }
+          }
+        }
+      }
+    },
+    "ecs": {
+      "version": "8.10.0"
+    },
+    "Events": [
+      {
+        "process": {
+          "Ext": {
+            "code_signature": [
+              {
+                "thumbprint_sha256": "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518",
+                "trusted": false,
+                "subject_name": "AppleWin",
+                "exists": true,
+                "status": "errorUntrustedRoot"
+              }
+            ]
+          },
+          "code_signature": {
+            "thumbprint_sha256": "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518",
+            "trusted": false,
+            "subject_name": "AppleWin",
+            "exists": true,
+            "status": "errorUntrustedRoot"
+          },
+          "name": "AppleWin.exe",
+          "pid": 10500,
+          "thread": {
+            "Ext": {
+              "call_stack_summary": "ntdll.dll|kernelbase.dll|combase.dll|Unbacked",
+              "call_stack_contains_unbacked": true,
+              "call_stack": [
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!NtMapViewOfSection+0x14"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrStandardizeSystemPath+0x910"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x526"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x3c"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!RtlpGetDeviceFamilyInfoEnum+0x850"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x488"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x207"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrpResGetMappingSize+0x1458"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrGetDllHandleEx+0x568"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\ntdll.dll!LdrLoadDll+0x106"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\KernelBase.dll!LoadLibraryExW+0x172"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2871"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2768"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x251e"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2289"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!RoGetActivationFactory+0x1720"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1831"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x11d0"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1a1c"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!RoRegisterForApartmentShutdown+0x648"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoDecrementMTAUsage+0x92c"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoSwitchCallContext+0x3e9e"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!HWND_UserUnmarshal+0x264"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x10c8"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0xd3a"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x2df"
+                },
+                {
+                  "symbol_info": "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x10c"
+                },
+                {
+                  "symbol_info": "Unbacked+0xad",
+                  "callsite_trailing_bytes": "89c385c0791a4189c0488d155ffffcffb90d000000ff1558fff8ffe9ea000000488d0d74fffcffff154efff8ff4889c74885c00f84a4000000488b0e4531d245",
+                  "protection": "RWX",
+                  "callsite_leading_bytes": "c9488944243031c048897c2440c74424280300000089442420ff1584fff8ff48897424204c8d0dd812fdff31d241b801000000488d0dd912fdffff156bfff8ff"
+                }
+              ]
+            }
+          },
+          "entity_id": "ZvQpucKhCAX1zXB097nSbw",
+          "executable": "C:\\ProgramData\\imonclient\\AppleWin.exe",
+          "uptime": 582
+        },
+        "@timestamp": "2026-08-22T00:39:28.1611824Z",
+        "_state": 0,
+        "dll": {
+          "Ext": {
+            "code_signature": [
+              {
+                "thumbprint_sha256": "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14",
+                "trusted": true,
+                "subject_name": "Microsoft Windows",
+                "exists": true,
+                "status": "trusted"
+              }
+            ],
+            "size": 65536,
+            "relative_file_creation_time": 166897486.5810567,
+            "load_index": 1,
+            "relative_file_name_modify_time": 3201154.6159402
+          },
+          "path": "C:\\Windows\\System32\\wbem\\wbemprox.dll",
+          "code_signature": {
+            "thumbprint_sha256": "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14",
+            "trusted": true,
+            "subject_name": "Microsoft Windows",
+            "exists": true,
+            "status": "trusted"
+          },
+          "pe": {
+            "file_version": "10.0.20348.1 (WinBuild.160101.0800)",
+            "imphash": "e3ff7b01badb5f37f70266a24aec8ff7",
+            "original_file_name": "wbemprox.dll"
+          },
+          "name": "wbemprox.dll",
+          "hash": {
+            "sha256": "a8f7b39818a1bc5cb1e42e49570d01ddb3c10b6af7a848f768ad67dfe381656c"
+          }
+        },
+        "host": {
+          "hostname": "wkstn01",
+          "os": {
+            "Ext": {
+              "variant": "Windows Server 2022 Standard Evaluation"
+            },
+            "kernel": "21H2 (10.0.20348.587)",
+            "name": "Windows",
+            "family": "windows",
+            "type": "windows",
+            "version": "21H2 (10.0.20348.587)",
+            "platform": "windows",
+            "full": "Windows Server 2022 Standard Evaluation 21H2 (10.0.20348.587)"
+          },
+          "ip": [
+            "10.4.10.210",
+            "127.0.0.1",
+            "::1"
+          ],
+          "name": "wkstn01",
+          "id": "bf09edcd-85a6-46b0-a378-21f52418bb9d",
+          "mac": [
+            "bc-24-11-d5-8f-a2"
+          ],
+          "architecture": "x86_64"
+        },
+        "event": {
+          "created": "2026-08-22T00:39:28.1941107Z",
+          "kind": "event",
+          "action": [
+            "load"
+          ],
+          "id": "OcXRrdm2iMW/MP/E++++GuxS",
+          "category": [
+            "library"
+          ],
+          "type": [
+            "start"
+          ],
+          "outcome": "success"
+        },
+        "message": "Endpoint DLL load event",
+        "user": {
+          "domain": "KR",
+          "name": "low",
+          "id": "S-1-5-21-1636382743-2440329335-3500962260-1108"
+        },
+        "_label": "wmi_loaded_susp_stack"
+      }
+    ],
+    "data_stream": {
+      "namespace": "default",
+      "type": "logs",
+      "dataset": "endpoint.alerts"
+    },
+    "elastic": {
+      "agent": {
+        "id": "4487f568-5e75-4821-afa6-5fa3728b18bd"
+      }
+    },
+    "host": {
+      "hostname": "wkstn01",
+      "os": {
+        "Ext": {
+          "variant": "Windows Server 2022 Standard Evaluation"
+        },
+        "kernel": "21H2 (10.0.20348.587)",
+        "name": "Windows",
+        "family": "windows",
+        "type": "windows",
+        "version": "21H2 (10.0.20348.587)",
+        "platform": "windows",
+        "full": "Windows Server 2022 Standard Evaluation 21H2 (10.0.20348.587)"
+      },
+      "domain": "kr.barrel.corp",
+      "ip": [
+        "10.4.10.210",
+        "127.0.0.1",
+        "::1"
+      ],
+      "name": "wkstn01",
+      "id": "bf09edcd-85a6-46b0-a378-21f52418bb9d",
+      "mac": [
+        "bc-24-11-d5-8f-a2"
+      ],
+      "architecture": "x86_64",
+      "risk": {
+        "calculated_level": "Moderate",
+        "calculated_score_norm": 65.476166
+      }
+    },
+    "threat": [
+      {
+        "framework": "MITRE ATT&CK",
+        "technique": [
+          {
+            "reference": "https://attack.mitre.org/techniques/T1047/",
+            "name": "Windows Management Instrumentation",
+            "id": "T1047"
+          }
+        ],
+        "tactic": {
+          "reference": "https://attack.mitre.org/tactics/TA0002/",
+          "name": "Execution",
+          "id": "TA0002"
+        }
+      }
+    ],
+    "event": {
+      "severity": 99,
+      "code": "behavior",
+      "risk_score": 99,
+      "created": "2026-08-22T00:39:28.1941107Z",
+      "module": "endpoint",
+      "type": [
+        "info",
+        "allowed"
+      ],
+      "agent_id_status": "verified",
+      "sequence": 88343,
+      "ingested": "2026-08-22T00:39:28Z",
+      "action": "rule_detection",
+      "id": "OcXRrdm2iMW/MP/E++++GuxW",
+      "category": [
+        "malware",
+        "intrusion_detection"
+      ],
+      "dataset": "endpoint.alerts",
+      "outcome": "success"
+    },
+    "user": {
+      "domain": "KR",
+      "name": "low",
+      "id": "S-1-5-21-1636382743-2440329335-3500962260-1108",
+      "risk": {
+        "calculated_level": "Moderate",
+        "calculated_score_norm": 53.25804
+      }
+    },
+    "kibana.alert.original_data_stream.namespace": "default",
+    "kibana.alert.original_data_stream.type": "logs",
+    "kibana.alert.original_data_stream.dataset": "endpoint.alerts",
+    "kibana.alert.original_event.severity": 99,
+    "kibana.alert.original_event.code": "behavior",
+    "kibana.alert.original_event.risk_score": 99,
+    "kibana.alert.original_event.created": "2026-08-22T00:39:28.1941107Z",
+    "kibana.alert.original_event.kind": "alert",
+    "kibana.alert.original_event.module": "endpoint",
+    "kibana.alert.original_event.type": [
+      "info",
+      "allowed"
+    ],
+    "kibana.alert.original_event.agent_id_status": "verified",
+    "kibana.alert.original_event.sequence": 88343,
+    "kibana.alert.original_event.ingested": "2026-08-22T00:39:28Z",
+    "kibana.alert.original_event.action": "rule_detection",
+    "kibana.alert.original_event.id": "OcXRrdm2iMW/MP/E++++GuxW",
+    "kibana.alert.original_event.category": [
+      "malware",
+      "intrusion_detection"
+    ],
+    "kibana.alert.original_event.dataset": "endpoint.alerts",
+    "kibana.alert.original_event.outcome": "success",
+    "event.kind": "signal",
+    "kibana.alert.original_time": "2026-08-22T00:39:28.194Z",
+    "kibana.alert.ancestors": [
+      {
+        "id": "AaAm6JJ9Ki6JysKHMJSu",
+        "type": "event",
+        "index": ".ds-logs-endpoint.alerts-default-2026.08.15-000001",
+        "depth": 0
+      }
+    ],
+    "kibana.alert.status": "active",
+    "kibana.alert.workflow_status": "open",
+    "kibana.alert.depth": 1,
+    "kibana.alert.reason": "malware, intrusion_detection event with process AppleWin.exe, parent process explorer.exe, by low on wkstn01 created critical alert Malicious Behavior Detection Alert: Suspicious WMI Library Load.",
+    "kibana.alert.severity": "critical",
+    "kibana.alert.risk_score": 99,
+    "kibana.alert.rule.actions": [],
+    "kibana.alert.rule.author": [
+      "Elastic"
+    ],
+    "kibana.alert.rule.created_at": "2026-08-15T09:54:26.472Z",
+    "kibana.alert.rule.created_by": "elastic",
+    "kibana.alert.rule.description": "Generates a detection alert each time an Elastic Defend alert is received. Enabling this rule allows you to immediately begin investigating your Endpoint alerts.",
+    "kibana.alert.rule.enabled": true,
+    "kibana.alert.rule.exceptions_list": [
+      {
+        "id": "endpoint_list",
+        "list_id": "endpoint_list",
+        "type": "endpoint",
+        "namespace_type": "agnostic"
+      }
+    ],
+    "kibana.alert.rule.false_positives": [],
+    "kibana.alert.rule.from": "now-2m",
+    "kibana.alert.rule.immutable": true,
+    "kibana.alert.rule.interval": "1m",
+    "kibana.alert.rule.indices": [
+      "logs-endpoint.alerts-*"
+    ],
+    "kibana.alert.rule.license": "Elastic License v2",
+    "kibana.alert.rule.max_signals": 1000,
+    "kibana.alert.rule.note": "## Triage and analysis\n\n> **Disclaimer**:\n> This investigation guide was created using generative AI technology and has been reviewed to improve its accuracy and relevance. While every effort has been made to ensure its quality, we recommend validating the content and adapting it to suit your specific environment and operational needs.\n\n### Investigating Endpoint Security (Elastic Defend)\n\nElastic Defend is a robust endpoint security solution that monitors and protects systems by analyzing events and generating alerts for suspicious activities. Adversaries may exploit endpoints by executing unauthorized code or manipulating system processes. The detection rule leverages event data to identify alerts from Elastic Defend, focusing on potential threats while excluding non-relevant modules, thus enabling timely investigation of endpoint anomalies.\n\n### Possible investigation steps\n\n- Review the alert details to understand the specific event.kind:alert and event.module: endpoint that triggered the alert, ensuring it is not related to the excluded endgame module.\n- Examine the timeline of events leading up to the alert to identify any unusual or unauthorized activities, such as unexpected process executions or system changes.\n- Correlate the alert with other security events or logs from the same endpoint to gather additional context and determine if there is a pattern of suspicious behavior.\n- Investigate the source and destination of any network connections associated with the alert to identify potential command and control activity or data exfiltration attempts.\n- Check for any recent changes or updates to the endpoint's software or configuration that could explain the alert, ensuring they are legitimate and authorized.\n- Assess the risk score and severity of the alert in conjunction with other alerts from the same endpoint to prioritize the investigation and response efforts.\n\n### False positive analysis\n\n- Alerts triggered by routine software updates can be false positives. Users can create exceptions for known update processes to prevent unnecessary alerts.\n- System maintenance activities, such as scheduled scans or backups, may generate alerts. Exclude these activities by identifying their specific event signatures and adding them to the exception list.\n- Legitimate administrative actions, like remote desktop sessions or script executions by IT staff, might be flagged. Define exceptions for these actions by correlating them with authorized user accounts or IP addresses.\n- Frequent alerts from non-malicious applications that interact with system processes can be excluded by whitelisting these applications based on their hash or path.\n- Network monitoring tools that simulate attack patterns for testing purposes may trigger alerts. Exclude these tools by specifying their known behaviors and IP ranges in the exception settings.\n\n### Response and remediation\n\n- Isolate the affected endpoint immediately to prevent further unauthorized access or lateral movement within the network.\n- Analyze the alert details to identify the specific unauthorized code or process manipulation involved, and terminate any malicious processes identified.\n- Remove any unauthorized code or files from the affected endpoint, ensuring that all traces of the threat are eradicated.\n- Conduct a thorough review of system logs and event data to identify any additional indicators of compromise or related suspicious activities.\n- Update endpoint security configurations and signatures to prevent similar threats from exploiting the same vulnerabilities in the future.\n- Restore the affected endpoint from a known good backup if necessary, ensuring that the system is free from any residual threats.\n- Escalate the incident to the security operations center (SOC) or relevant team for further analysis and to determine if additional systems may be affected.",
+    "kibana.alert.rule.references": [],
+    "kibana.alert.rule.risk_score_mapping": [
+      {
+        "field": "event.risk_score",
+        "operator": "equals",
+        "value": ""
+      }
+    ],
+    "kibana.alert.rule.rule_id": "9a1a2dae-0b5f-4c3d-8305-a268d404c306",
+    "kibana.alert.rule.rule_name_override": "message",
+    "kibana.alert.rule.severity_mapping": [
+      {
+        "field": "event.severity",
+        "operator": "equals",
+        "severity": "low",
+        "value": "21"
+      },
+      {
+        "field": "event.severity",
+        "operator": "equals",
+        "severity": "medium",
+        "value": "47"
+      },
+      {
+        "field": "event.severity",
+        "operator": "equals",
+        "severity": "high",
+        "value": "73"
+      },
+      {
+        "field": "event.severity",
+        "operator": "equals",
+        "severity": "critical",
+        "value": "99"
+      }
+    ],
+    "kibana.alert.rule.threat": [],
+    "kibana.alert.rule.timestamp_override": "event.ingested",
+    "kibana.alert.rule.to": "now",
+    "kibana.alert.rule.type": "query",
+    "kibana.alert.rule.updated_at": "2026-08-15T09:54:26.472Z",
+    "kibana.alert.rule.updated_by": "elastic",
+    "kibana.alert.rule.version": 108,
+    "kibana.alert.uuid": "7c68ae957366f5feb11662d7627762bfaa7355dc3574b1a1e9135bee3754b07c",
+    "kibana.alert.workflow_tags": [],
+    "kibana.alert.workflow_assignee_ids": [],
+    "kibana.alert.rule.risk_score": 47,
+    "kibana.alert.rule.severity": "medium",
+    "kibana.alert.intended_timestamp": "2026-08-22T00:40:17.959Z",
+    "kibana.alert.rule.execution.type": "scheduled"
+  },
+  "fields": {
+    "host.os.full.text": [
+      "Windows Server 2022 Standard Evaluation 21H2 (10.0.20348.587)"
+    ],
+    "kibana.alert.rule.updated_by": [
+      "elastic"
+    ],
+    "host.os.name.text": [
+      "Windows"
+    ],
+    "kibana.alert.rule.rule_name_override": [
+      "message"
+    ],
+    "process.hash.sha256": [
+      "a365110190527750900161bda7d1faf091178b3e8e7f2d1b71e6ba39f564453a"
+    ],
+    "host.hostname": [
+      "wkstn01"
+    ],
+    "signal.original_event.created": [
+      "2026-08-22T00:39:28.194Z"
+    ],
+    "host.mac": [
+      "bc-24-11-d5-8f-a2"
+    ],
+    "elastic.agent.id": [
+      "4487f568-5e75-4821-afa6-5fa3728b18bd"
+    ],
+    "Events.event.outcome": [
+      "success"
+    ],
+    "dll.hash.sha256": [
+      "a8f7b39818a1bc5cb1e42e49570d01ddb3c10b6af7a848f768ad67dfe381656c"
+    ],
+    "signal.rule.enabled": [
+      "true"
+    ],
+    "process.thread.Ext.call_stack_contains_unbacked": [
+      true
+    ],
+    "host.domain": [
+      "kr.barrel.corp"
+    ],
+    "Events.dll.code_signature.status": [
+      "trusted"
+    ],
+    "host.os.version": [
+      "21H2 (10.0.20348.587)"
+    ],
+    "signal.rule.max_signals": [
+      1000
+    ],
+    "kibana.alert.risk_score": [
+      99
+    ],
+    "signal.rule.updated_at": [
+      "2026-08-15T09:54:26.472Z"
+    ],
+    "Endpoint.policy.applied.id": [
+      "9aa7cb4c-f452-41c7-b3aa-56d20f0757dd"
+    ],
+    "kibana.alert.original_event.id": [
+      "OcXRrdm2iMW/MP/E++++GuxW"
+    ],
+    "event.severity": [
+      99
+    ],
+    "Events.dll.code_signature.exists": [
+      true
+    ],
+    "host.os.type": [
+      "windows"
+    ],
+    "process.Ext.code_signature.thumbprint_sha256": [
+      "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518"
+    ],
+    "signal.original_event.code": [
+      "behavior"
+    ],
+    "Events.dll.Ext.code_signature.trusted": [
+      true
+    ],
+    "kibana.alert.original_event.module": [
+      "endpoint"
+    ],
+    "kibana.alert.rule.interval": [
+      "1m"
+    ],
+    "kibana.alert.rule.type": [
+      "query"
+    ],
+    "kibana.alert.rule.immutable": [
+      "true"
+    ],
+    "dll.Ext.code_signature.subject_name": [
+      "Microsoft Windows"
+    ],
+    "kibana.alert.rule.exceptions_list.list_id": [
+      "endpoint_list"
+    ],
+    "dll.pe.original_file_name": [
+      "wbemprox.dll"
+    ],
+    "Endpoint.policy.applied.artifacts.global.manifest_type": [
+      "stable"
+    ],
+    "kibana.alert.rule.version": [
+      "108"
+    ],
+    "Events.process.thread.Ext.call_stack_summary": [
+      "ntdll.dll|kernelbase.dll|combase.dll|Unbacked"
+    ],
+    "Events.process.code_signature.trusted": [
+      false
+    ],
+    "process.command_line.text": [
+      "\"C:\\ProgramData\\imonclient\\AppleWin.exe\" "
+    ],
+    "Events.dll.Ext.code_signature.status": [
+      "trusted"
+    ],
+    "Events.host.mac": [
+      "bc-24-11-d5-8f-a2"
+    ],
+    "signal.original_event.outcome": [
+      "success"
+    ],
+    "threat.framework": [
+      "MITRE ATT&CK"
+    ],
+    "process.working_directory": [
+      "C:\\ProgramData\\imonclient\\"
+    ],
+    "process.entity_id": [
+      "ZvQpucKhCAX1zXB097nSbw"
+    ],
+    "process.parent.code_signature.status": [
+      "trusted"
+    ],
+    "process.thread.Ext.call_stack.callsite_trailing_bytes": [
+      "89c385c0791a4189c0488d155ffffcffb90d000000ff1558fff8ffe9ea000000488d0d74fffcffff154efff8ff4889c74885c00f84a4000000488b0e4531d245"
+    ],
+    "process.thread.Ext.call_stack.protection": [
+      "RWX"
+    ],
+    "host.ip": [
+      "10.4.10.210",
+      "127.0.0.1",
+      "::1"
+    ],
+    "agent.type": [
+      "endpoint"
+    ],
+    "process.pe.original_file_name": [
+      "APPLEWIN.EXE"
+    ],
+    "process.executable.text": [
+      "C:\\ProgramData\\imonclient\\AppleWin.exe"
+    ],
+    "signal.original_event.category": [
+      "malware",
+      "intrusion_detection"
+    ],
+    "Events.user.id": [
+      "S-1-5-21-1636382743-2440329335-3500962260-1108"
+    ],
+    "Endpoint.policy.applied.name": [
+      "elastic-defend-1"
+    ],
+    "host.id": [
+      "bf09edcd-85a6-46b0-a378-21f52418bb9d"
+    ],
+    "process.Ext.code_signature.subject_name": [
+      "AppleWin"
+    ],
+    "Events.dll.hash.sha256": [
+      "a8f7b39818a1bc5cb1e42e49570d01ddb3c10b6af7a848f768ad67dfe381656c"
+    ],
+    "process.working_directory.text": [
+      "C:\\ProgramData\\imonclient\\"
+    ],
+    "Events.@timestamp": [
+      "2026-08-22T00:39:28.1611824Z"
+    ],
+    "Endpoint.policy.applied.artifacts.global.channel": [
+      "default"
+    ],
+    "Events.process.thread.Ext.call_stack.protection": [
+      "RWX"
+    ],
+    "Events.user.name": [
+      "low"
+    ],
+    "kibana.alert.rule.indices": [
+      "logs-endpoint.alerts-*"
+    ],
+    "host.os.Ext.variant": [
+      "Windows Server 2022 Standard Evaluation"
+    ],
+    "Events.event.action": [
+      "load"
+    ],
+    "signal.rule.updated_by": [
+      "elastic"
+    ],
+    "host.os.platform": [
+      "windows"
+    ],
+    "kibana.alert.intended_timestamp": [
+      "2026-08-22T00:40:17.959Z"
+    ],
+    "kibana.alert.rule.severity": [
+      "medium"
+    ],
+    "Endpoint.policy.applied.artifacts.user.identifiers.sha256": [
+      "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+      "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+      "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+      "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+      "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+      "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658"
+    ],
+    "kibana.alert.rule.execution.timestamp": [
+      "2026-08-22T00:40:17.996Z"
+    ],
+    "kibana.version": [
+      "9.4.2"
+    ],
+    "event.id": [
+      "OcXRrdm2iMW/MP/E++++GuxW"
+    ],
+    "signal.ancestors.type": [
+      "event"
+    ],
+    "user.name.text": [
+      "low"
+    ],
+    "kibana.alert.ancestors.id": [
+      "AaAm6JJ9Ki6JysKHMJSu"
+    ],
+    "process.name.text": [
+      "AppleWin.exe"
+    ],
+    "host.os.full": [
+      "Windows Server 2022 Standard Evaluation 21H2 (10.0.20348.587)"
+    ],
+    "process.parent.Ext.code_signature.trusted": [
+      true
+    ],
+    "kibana.alert.original_data_stream.namespace": [
+      "default"
+    ],
+    "kibana.alert.original_event.code": [
+      "behavior"
+    ],
+    "Endpoint.policy.applied.artifacts.global.identifiers.name": [
+      "diagnostic-configuration-v1",
+      "diagnostic-endpointpe-v4-blocklist",
+      "diagnostic-endpointpe-v4-exceptionlist",
+      "diagnostic-endpointpe-v4-model",
+      "diagnostic-malware-signature-v1-windows",
+      "diagnostic-ransomware-v1-windows",
+      "diagnostic-rules-windows-v1",
+      "endpointpe-v4-blocklist",
+      "endpointpe-v4-exceptionlist",
+      "endpointpe-v4-model",
+      "global-configuration-v1",
+      "global-eventfilterlist-windows-v1",
+      "global-exceptionlist-windows",
+      "global-trustlist-windows-v1",
+      "production-malware-signature-v1-windows",
+      "production-ransomware-v1-windows",
+      "production-rules-windows-v1",
+      "tamper-protection-config-v1"
+    ],
+    "kibana.alert.rule.description": [
+      "Generates a detection alert each time an Elastic Defend alert is received. Enabling this rule allows you to immediately begin investigating your Endpoint alerts."
+    ],
+    "dll.code_signature.exists": [
+      true
+    ],
+    "kibana.alert.rule.producer": [
+      "siem"
+    ],
+    "process.parent.Ext.code_signature.thumbprint_sha256": [
+      "a6a3d72f444aa7a05587ed6c275f07cc13949a6d3d6b8bb311cfb704dd4f9e14"
+    ],
+    "kibana.alert.rule.to": [
+      "now"
+    ],
+    "Endpoint.policy.applied.artifacts.user.version": [
+      "1.0.0"
+    ],
+    "kibana.alert.original_event.ingested": [
+      "2026-08-22T00:39:28.000Z"
+    ],
+    "signal.rule.id": [
+      "8711c2dc-2206-416a-b2d0-ef7a7e45ff55"
+    ],
+    "rule.ruleset": [
+      "production"
+    ],
+    "signal.reason": [
+      "malware, intrusion_detection event with process AppleWin.exe, parent process explorer.exe, by low on wkstn01 created critical alert Malicious Behavior Detection Alert: Suspicious WMI Library Load."
+    ],
+    "signal.rule.risk_score": [
+      99
+    ],
+    "user.risk.calculated_score_norm": [
+      53.25804
+    ],
+    "host.os.name": [
+      "Windows"
+    ],
+    "Events.dll.code_signature.trusted": [
+      true
+    ],
+    "process.parent.Ext.code_signature.exists": [
+      true
+    ],
+    "signal.status": [
+      "open"
+    ],
+    "Events.dll.Ext.relative_file_creation_time": [
+      166897486.5810567
+    ],
+    "dll.Ext.code_signature.trusted": [
+      true
+    ],
+    "Events.host.os.full": [
+      "Windows Server 2022 Standard Evaluation 21H2 (10.0.20348.587)"
+    ],
+    "kibana.alert.rule.severity_mapping.value": [
+      "21",
+      "47",
+      "73",
+      "99"
+    ],
+    "signal.rule.tags": [
+      "Data Source: Elastic Defend",
+      "Resources: Investigation Guide"
+    ],
+    "rule.name": [
+      "Suspicious WMI Library Load"
+    ],
+    "kibana.alert.rule.uuid": [
+      "8711c2dc-2206-416a-b2d0-ef7a7e45ff55"
+    ],
+    "Events.process.executable": [
+      "C:\\ProgramData\\imonclient\\AppleWin.exe"
+    ],
+    "kibana.alert.original_event.category": [
+      "malware",
+      "intrusion_detection"
+    ],
+    "signal.original_event.risk_score": [
+      99
+    ],
+    "Events.host.os.name": [
+      "Windows"
+    ],
+    "rule.description": [
+      "Identifies the load of Windows Management Instrumentation related libraries and from suspicious call stack."
+    ],
+    "threat.technique.id": [
+      "T1047"
+    ],
+    "Events.process.name": [
+      "AppleWin.exe"
+    ],
+    "process.name": [
+      "AppleWin.exe"
+    ],
+    "Events.process.thread.Ext.call_stack_contains_unbacked": [
+      true
+    ],
+    "Events.process.Ext.code_signature.status": [
+      "errorUntrustedRoot"
+    ],
+    "process.parent.executable.text": [
+      "C:\\Windows\\explorer.exe"
+    ],
+    "Events.process.code_signature.status": [
+      "errorUntrustedRoot"
+    ],
+    "kibana.alert.ancestors.index": [
+      ".ds-logs-endpoint.alerts-default-2026.08.15-000001"
+    ],
+    "dll.Ext.relative_file_name_modify_time": [
+      3201154.6159402
+    ],
+    "dll.code_signature.trusted": [
+      true
+    ],
+    "process.Ext.code_signature.trusted": [
+      false
+    ],
+    "agent.version": [
+      "9.4.2"
+    ],
+    "signal.original_event.severity": [
+      99
+    ],
+    "kibana.alert.rule.risk_score_mapping.operator": [
+      "equals"
+    ],
+    "host.os.family": [
+      "windows"
+    ],
+    "kibana.alert.rule.from": [
+      "now-2m"
+    ],
+    "Events.dll.pe.original_file_name": [
+      "wbemprox.dll"
+    ],
+    "kibana.alert.rule.parameters": [
+      {
+        "note": "## Triage and analysis\n\n> **Disclaimer**:\n> This investigation guide was created using generative AI technology and has been reviewed to improve its accuracy and relevance. While every effort has been made to ensure its quality, we recommend validating the content and adapting it to suit your specific environment and operational needs.\n\n### Investigating Endpoint Security (Elastic Defend)\n\nElastic Defend is a robust endpoint security solution that monitors and protects systems by analyzing events and generating alerts for suspicious activities. Adversaries may exploit endpoints by executing unauthorized code or manipulating system processes. The detection rule leverages event data to identify alerts from Elastic Defend, focusing on potential threats while excluding non-relevant modules, thus enabling timely investigation of endpoint anomalies.\n\n### Possible investigation steps\n\n- Review the alert details to understand the specific event.kind:alert and event.module: endpoint that triggered the alert, ensuring it is not related to the excluded endgame module.\n- Examine the timeline of events leading up to the alert to identify any unusual or unauthorized activities, such as unexpected process executions or system changes.\n- Correlate the alert with other security events or logs from the same endpoint to gather additional context and determine if there is a pattern of suspicious behavior.\n- Investigate the source and destination of any network connections associated with the alert to identify potential command and control activity or data exfiltration attempts.\n- Check for any recent changes or updates to the endpoint's software or configuration that could explain the alert, ensuring they are legitimate and authorized.\n- Assess the risk score and severity of the alert in conjunction with other alerts from the same endpoint to prioritize the investigation and response efforts.\n\n### False positive analysis\n\n- Alerts triggered by routine software updates can be false positives. Users can create exceptions for known update processes to prevent unnecessary alerts.\n- System maintenance activities, such as scheduled scans or backups, may generate alerts. Exclude these activities by identifying their specific event signatures and adding them to the exception list.\n- Legitimate administrative actions, like remote desktop sessions or script executions by IT staff, might be flagged. Define exceptions for these actions by correlating them with authorized user accounts or IP addresses.\n- Frequent alerts from non-malicious applications that interact with system processes can be excluded by whitelisting these applications based on their hash or path.\n- Network monitoring tools that simulate attack patterns for testing purposes may trigger alerts. Exclude these tools by specifying their known behaviors and IP ranges in the exception settings.\n\n### Response and remediation\n\n- Isolate the affected endpoint immediately to prevent further unauthorized access or lateral movement within the network.\n- Analyze the alert details to identify the specific unauthorized code or process manipulation involved, and terminate any malicious processes identified.\n- Remove any unauthorized code or files from the affected endpoint, ensuring that all traces of the threat are eradicated.\n- Conduct a thorough review of system logs and event data to identify any additional indicators of compromise or related suspicious activities.\n- Update endpoint security configurations and signatures to prevent similar threats from exploiting the same vulnerabilities in the future.\n- Restore the affected endpoint from a known good backup if necessary, ensuring that the system is free from any residual threats.\n- Escalate the incident to the security operations center (SOC) or relevant team for further analysis and to determine if additional systems may be affected.",
+        "severity_mapping": [
+          {
+            "field": "event.severity",
+            "operator": "equals",
+            "severity": "low",
+            "value": "21"
+          },
+          {
+            "field": "event.severity",
+            "operator": "equals",
+            "severity": "medium",
+            "value": "47"
+          },
+          {
+            "field": "event.severity",
+            "operator": "equals",
+            "severity": "high",
+            "value": "73"
+          },
+          {
+            "field": "event.severity",
+            "operator": "equals",
+            "severity": "critical",
+            "value": "99"
+          }
+        ],
+        "description": "Generates a detection alert each time an Elastic Defend alert is received. Enabling this rule allows you to immediately begin investigating your Endpoint alerts.",
+        "language": "kuery",
+        "type": "query",
+        "rule_name_override": "message",
+        "exceptions_list": {
+          "id": "endpoint_list",
+          "list_id": "endpoint_list",
+          "type": "endpoint",
+          "namespace_type": "agnostic"
+        },
+        "timestamp_override": "event.ingested",
+        "from": "now-2m",
+        "severity": "medium",
+        "max_signals": 1000,
+        "rule_source": {
+          "type": "external",
+          "is_customized": false,
+          "customized_fields": [],
+          "has_base_version": true
+        },
+        "risk_score": 47,
+        "risk_score_mapping": {
+          "field": "event.risk_score",
+          "operator": "equals",
+          "value": ""
+        },
+        "author": "Elastic",
+        "query": "event.kind:alert and event.module:(endpoint and not endgame)\n",
+        "index": "logs-endpoint.alerts-*",
+        "version": 108,
+        "rule_id": "9a1a2dae-0b5f-4c3d-8305-a268d404c306",
+        "license": "Elastic License v2",
+        "required_fields": [
+          {
+            "name": "event.kind",
+            "type": "keyword",
+            "ecs": true
+          },
+          {
+            "name": "event.module",
+            "type": "keyword",
+            "ecs": true
+          }
+        ],
+        "immutable": true,
+        "related_integrations": {
+          "package": "endpoint",
+          "version": "^9.0.0"
+        },
+        "setup": "## Setup\n\n### Elastic Defend Alerts\nIf this rule is disabled, you will not receive alerts for Elastic Defend alerts. This rule is designed to capture all alerts generated by Elastic Defend. For more granular alerting, consider using additional prebuilt-rules that capture specific Elastic Defend alerts.\n\nIf this rule is enabled, along with the related rules listed below, you will receive duplicate alerts for the same events. To avoid this, it is recommended to disable this generic rule and enable the more specific rules that capture these alerts separately.\n\nRelated rules:\n- Behavior - Detected - Elastic Defend (UUID: 0f615fe4-eaa2-11ee-ae33-f661ea17fbce)\n- Behavior - Prevented - Elastic Defend (UUID: eb804972-ea34-11ee-a417-f661ea17fbce)\n- Malicious File - Detected - Elastic Defend (UUID: f2c3caa6-ea34-11ee-a417-f661ea17fbce)\n- Malicious File - Prevented - Elastic Defend (UUID: f87e6122-ea34-11ee-a417-f661ea17fbce)\n- Memory Threat - Detected - Elastic Defend (UUID: 017de1e4-ea35-11ee-a417-f661ea17fbce)\n- Memory Threat - Prevented - Elastic Defend (UUID: 06f3a26c-ea35-11ee-a417-f661ea17fbce)\n- Ransomware - Detected - Elastic Defend (UUID: 0c74cd7e-ea35-11ee-a417-f661ea17fbce)\n- Ransomware - Prevented - Elastic Defend (UUID: 10f3d520-ea35-11ee-a417-f661ea17fbce)\n\n### Additional notes\n\nFor information on troubleshooting the maximum alerts warning please refer to this [guide](https://www.elastic.co/guide/en/security/current/alerts-ui-monitor.html#troubleshoot-max-alerts).\n",
+        "to": "now"
+      }
+    ],
+    "signal.original_event.kind": [
+      "alert"
+    ],
+    "threat.technique.name": [
+      "Windows Management Instrumentation"
+    ],
+    "Events.event.type": [
+      "start"
+    ],
+    "Events.event.created": [
+      "2026-08-22T00:39:28.1941107Z"
+    ],
+    "Events.dll.Ext.size": [
+      65536
+    ],
+    "signal.depth": [
+      1
+    ],
+    "dll.Ext.relative_file_creation_time": [
+      166897486.5810567
+    ],
+    "signal.rule.immutable": [
+      "true"
+    ],
+    "process.parent.name.text": [
+      "explorer.exe"
+    ],
+    "event.sequence": [
+      88343
+    ],
+    "signal.rule.name": [
+      "Malicious Behavior Detection Alert: Suspicious WMI Library Load"
+    ],
+    "event.module": [
+      "endpoint"
+    ],
+    "kibana.alert.rule.severity_mapping.operator": [
+      "equals",
+      "equals",
+      "equals",
+      "equals"
+    ],
+    "host.os.kernel": [
+      "21H2 (10.0.20348.587)"
+    ],
+    "kibana.alert.rule.license": [
+      "Elastic License v2"
+    ],
+    "Events.dll.Ext.relative_file_name_modify_time": [
+      3201154.6159402
+    ],
+    "Events.process.Ext.code_signature.thumbprint_sha256": [
+      "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518"
+    ],
+    "kibana.alert.original_event.kind": [
+      "alert"
+    ],
+    "Events.dll.Ext.code_signature.exists": [
+      true
+    ],
+    "Endpoint.policy.applied.artifacts.global.update_age": [
+      1
+    ],
+    "process.parent.command_line.text": [
+      "C:\\Windows\\Explorer.EXE"
+    ],
+    "signal.rule.description": [
+      "Generates a detection alert each time an Elastic Defend alert is received. Enabling this rule allows you to immediately begin investigating your Endpoint alerts."
+    ],
+    "process.args": [
+      "C:\\ProgramData\\imonclient\\AppleWin.exe"
+    ],
+    "message": [
+      "Malicious Behavior Detection Alert: Suspicious WMI Library Load"
+    ],
+    "dll.Ext.size": [
+      65536
+    ],
+    "rule.version": [
+      "1.0.6"
+    ],
+    "kibana.alert.original_event.outcome": [
+      "success"
+    ],
+    "kibana.alert.original_event.sequence": [
+      88343
+    ],
+    "dll.path": [
+      "C:\\Windows\\System32\\wbem\\wbemprox.dll"
+    ],
+    "kibana.alert.original_data_stream.type": [
+      "logs"
+    ],
+    "dll.Ext.load_index": [
+      1
+    ],
+    "kibana.alert.rule.exceptions_list.namespace_type": [
+      "agnostic"
+    ],
+    "threat.technique.reference": [
+      "https://attack.mitre.org/techniques/T1047/"
+    ],
+    "kibana.space_ids": [
+      "default"
+    ],
+    "kibana.alert.severity": [
+      "critical"
+    ],
+    "rule.id": [
+      "3cd302aa-098b-4da6-bf20-8d37efe5f861"
+    ],
+    "signal.ancestors.depth": [
+      0
+    ],
+    "event.category": [
+      "malware",
+      "intrusion_detection"
+    ],
+    "host.risk.calculated_score_norm": [
+      65.476166
+    ],
+    "Events.dll.code_signature.subject_name": [
+      "Microsoft Windows"
+    ],
+    "Endpoint.policy.applied.artifacts.global.identifiers.sha256": [
+      "1aed8b2e7de5adcf41a2628829e2b168f33577f3152beb129b97790dd6560af6",
+      "338eb3e0d0c2b7efcd291ca270a0a6188d3632a25c7a8dc5d020fdb44293e12f",
+      "cd8996c573cf2439d2148ede1c7a982e241c9566a8b1932e6d0f7f8dd282227d",
+      "251b8b5d2dc530f02d09b19a11bcb20773cbd98e54d4f78394040390ea66aa9c",
+      "9ee94137b54a99029eaa94aa0687937868947c5c68689959e923d0ded360ddd1",
+      "9636fb1bda16d4dc236d40d2aeb379f30d81276028e9b3048002e3ca6a83dfb5",
+      "c357c6255e54ce16dcec0a955de00148dcdab591c6cb3d18bada7c49e2076f80",
+      "fba2e7e84d4191bed67277a84eb2782ad02bb08e21d791dd2cc585f78c1c06b7",
+      "9b8056d06a50b91fdd0d64244ebf89374b113bc115209dedbe6811d0e0a92243",
+      "fb2d49a96f8b4a4eb48f91864a9093549b9c726d7bef1f3544f588f17aab893d",
+      "47377ffccbb4b6e921da538485f4d8f2cc11ba10bc9186b1258135e3e9bfca28",
+      "2a30e0a996468b99cf2bd71629713d866ba7c51c24aa54c57c467122c8d55ab4",
+      "7c113026c4e126c26e55fdb210216c8cbbe4bc36c4f77c35533937ce2bd75bc9",
+      "aaeab218a20828574c347e88ecb4eb411ffca9e8496c484327b2213f49e1dc9e",
+      "3a5d88571ff07d052ea9a609e58a21db6cdbd735eccc1033cc551cd542e69092",
+      "e3efc40c7e3fc0a590a074011abf990ab120f9f182b3dbca7b32ee58d0e5c3aa",
+      "c510500f641bb867d54f5e9eff560a2d37423a75e96b685ea7a28dea69b10b18",
+      "6fd383db741c2dbbd6f1a0d455c8461e9f78356cbb441c48c6c92e3429415a44"
+    ],
+    "Events.host.ip": [
+      "10.4.10.210",
+      "127.0.0.1",
+      "::1"
+    ],
+    "Events.dll.name": [
+      "wbemprox.dll"
+    ],
+    "process.parent.command_line": [
+      "C:\\Windows\\Explorer.EXE"
+    ],
+    "process.parent.name": [
+      "explorer.exe"
+    ],
+    "process.parent.pid": [
+      14964
+    ],
+    "kibana.alert.original_event.risk_score": [
+      99
+    ],
+    "kibana.alert.rule.tags": [
+      "Data Source: Elastic Defend",
+      "Resources: Investigation Guide"
+    ],
+    "process.code_signature.exists": [
+      true
+    ],
+    "kibana.alert.reason.text": [
+      "malware, intrusion_detection event with process AppleWin.exe, parent process explorer.exe, by low on wkstn01 created critical alert Malicious Behavior Detection Alert: Suspicious WMI Library Load."
+    ],
+    "Events.process.Ext.code_signature.trusted": [
+      false
+    ],
+    "kibana.alert.ancestors.depth": [
+      0
+    ],
+    "threat.technique.name.text": [
+      "Windows Management Instrumentation"
+    ],
+    "Events.host.id": [
+      "bf09edcd-85a6-46b0-a378-21f52418bb9d"
+    ],
+    "process.thread.Ext.call_stack.symbol_info": [
+      "C:\\Windows\\System32\\ntdll.dll!NtMapViewOfSection+0x14",
+      "C:\\Windows\\System32\\ntdll.dll!LdrStandardizeSystemPath+0x910",
+      "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x526",
+      "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x3c",
+      "C:\\Windows\\System32\\ntdll.dll!RtlpGetDeviceFamilyInfoEnum+0x850",
+      "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x488",
+      "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x207",
+      "C:\\Windows\\System32\\ntdll.dll!LdrpResGetMappingSize+0x1458",
+      "C:\\Windows\\System32\\ntdll.dll!LdrGetDllHandleEx+0x568",
+      "C:\\Windows\\System32\\ntdll.dll!LdrLoadDll+0x106",
+      "C:\\Windows\\System32\\KernelBase.dll!LoadLibraryExW+0x172",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2871",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2768",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x251e",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2289",
+      "C:\\Windows\\System32\\combase.dll!RoGetActivationFactory+0x1720",
+      "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1831",
+      "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x11d0",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f",
+      "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1a1c",
+      "C:\\Windows\\System32\\combase.dll!RoRegisterForApartmentShutdown+0x648",
+      "C:\\Windows\\System32\\combase.dll!CoDecrementMTAUsage+0x92c",
+      "C:\\Windows\\System32\\combase.dll!CoSwitchCallContext+0x3e9e",
+      "C:\\Windows\\System32\\combase.dll!HWND_UserUnmarshal+0x264",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x10c8",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f",
+      "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0xd3a",
+      "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x2df",
+      "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x10c",
+      "Unbacked+0xad"
+    ],
+    "kibana.alert.rule.severity_mapping.severity": [
+      "low",
+      "medium",
+      "high",
+      "critical"
+    ],
+    "agent.build.original": [
+      "version: 9.4.2, compiled: Wed May 20 10:00:00 2026, branch: HEAD, commit: aa576fbd1e995fc6e32ff5c1689d2a63674cb4ff"
+    ],
+    "Events.dll.Ext.code_signature.subject_name": [
+      "Microsoft Windows"
+    ],
+    "event.agent_id_status": [
+      "verified"
+    ],
+    "event.outcome": [
+      "success"
+    ],
+    "process.parent.Ext.code_signature.subject_name": [
+      "Microsoft Windows"
+    ],
+    "dll.code_signature.thumbprint_sha256": [
+      "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14"
+    ],
+    "Events.event.kind": [
+      "event"
+    ],
+    "kibana.alert.rule.risk_score_mapping.value": [
+      ""
+    ],
+    "user.id": [
+      "S-1-5-21-1636382743-2440329335-3500962260-1108"
+    ],
+    "dll.Ext.code_signature.status": [
+      "trusted"
+    ],
+    "signal.original_event.sequence": [
+      88343
+    ],
+    "event.risk_score": [
+      99
+    ],
+    "Events.host.hostname": [
+      "wkstn01"
+    ],
+    "host.architecture": [
+      "x86_64"
+    ],
+    "kibana.alert.start": [
+      "2026-08-22T00:40:17.996Z"
+    ],
+    "process.Ext.code_signature.status": [
+      "errorUntrustedRoot"
+    ],
+    "event.code": [
+      "behavior"
+    ],
+    "kibana.alert.original_event.type": [
+      "info",
+      "allowed"
+    ],
+    "agent.id": [
+      "4487f568-5e75-4821-afa6-5fa3728b18bd"
+    ],
+    "signal.original_event.module": [
+      "endpoint"
+    ],
+    "process.parent.code_signature.trusted": [
+      true
+    ],
+    "signal.rule.from": [
+      "now-2m"
+    ],
+    "kibana.alert.rule.exceptions_list.type": [
+      "endpoint"
+    ],
+    "kibana.alert.rule.enabled": [
+      "true"
+    ],
+    "kibana.alert.ancestors.type": [
+      "event"
+    ],
+    "Events.host.os.type": [
+      "windows"
+    ],
+    "Events.process.code_signature.subject_name": [
+      "AppleWin"
+    ],
+    "dll.name": [
+      "wbemprox.dll"
+    ],
+    "signal.ancestors.index": [
+      ".ds-logs-endpoint.alerts-default-2026.08.15-000001"
+    ],
+    "user.name": [
+      "low"
+    ],
+    "Events.process.Ext.code_signature.subject_name": [
+      "AppleWin"
+    ],
+    "kibana.alert.original_data_stream.dataset": [
+      "endpoint.alerts"
+    ],
+    "Endpoint.policy.applied.artifacts.global.version": [
+      "1.0.2016+2026-08-20-daily"
+    ],
+    "Events.host.os.Ext.variant": [
+      "Windows Server 2022 Standard Evaluation"
+    ],
+    "signal.original_event.id": [
+      "OcXRrdm2iMW/MP/E++++GuxW"
+    ],
+    "Events.process.uptime": [
+      582
+    ],
+    "process.uptime": [
+      582
+    ],
+    "Endpoint.policy.applied.artifacts.global.snapshot": [
+      "latest"
+    ],
+    "Events.event.category": [
+      "library"
+    ],
+    "user.domain": [
+      "KR"
+    ],
+    "signal.original_event.type": [
+      "info",
+      "allowed"
+    ],
+    "kibana.alert.rule.note": [
+      "## Triage and analysis\n\n> **Disclaimer**:\n> This investigation guide was created using generative AI technology and has been reviewed to improve its accuracy and relevance. While every effort has been made to ensure its quality, we recommend validating the content and adapting it to suit your specific environment and operational needs.\n\n### Investigating Endpoint Security (Elastic Defend)\n\nElastic Defend is a robust endpoint security solution that monitors and protects systems by analyzing events and generating alerts for suspicious activities. Adversaries may exploit endpoints by executing unauthorized code or manipulating system processes. The detection rule leverages event data to identify alerts from Elastic Defend, focusing on potential threats while excluding non-relevant modules, thus enabling timely investigation of endpoint anomalies.\n\n### Possible investigation steps\n\n- Review the alert details to understand the specific event.kind:alert and event.module: endpoint that triggered the alert, ensuring it is not related to the excluded endgame module.\n- Examine the timeline of events leading up to the alert to identify any unusual or unauthorized activities, such as unexpected process executions or system changes.\n- Correlate the alert with other security events or logs from the same endpoint to gather additional context and determine if there is a pattern of suspicious behavior.\n- Investigate the source and destination of any network connections associated with the alert to identify potential command and control activity or data exfiltration attempts.\n- Check for any recent changes or updates to the endpoint's software or configuration that could explain the alert, ensuring they are legitimate and authorized.\n- Assess the risk score and severity of the alert in conjunction with other alerts from the same endpoint to prioritize the investigation and response efforts.\n\n### False positive analysis\n\n- Alerts triggered by routine software updates can be false positives. Users can create exceptions for known update processes to prevent unnecessary alerts.\n- System maintenance activities, such as scheduled scans or backups, may generate alerts. Exclude these activities by identifying their specific event signatures and adding them to the exception list.\n- Legitimate administrative actions, like remote desktop sessions or script executions by IT staff, might be flagged. Define exceptions for these actions by correlating them with authorized user accounts or IP addresses.\n- Frequent alerts from non-malicious applications that interact with system processes can be excluded by whitelisting these applications based on their hash or path.\n- Network monitoring tools that simulate attack patterns for testing purposes may trigger alerts. Exclude these tools by specifying their known behaviors and IP ranges in the exception settings.\n\n### Response and remediation\n\n- Isolate the affected endpoint immediately to prevent further unauthorized access or lateral movement within the network.\n- Analyze the alert details to identify the specific unauthorized code or process manipulation involved, and terminate any malicious processes identified.\n- Remove any unauthorized code or files from the affected endpoint, ensuring that all traces of the threat are eradicated.\n- Conduct a thorough review of system logs and event data to identify any additional indicators of compromise or related suspicious activities.\n- Update endpoint security configurations and signatures to prevent similar threats from exploiting the same vulnerabilities in the future.\n- Restore the affected endpoint from a known good backup if necessary, ensuring that the system is free from any residual threats.\n- Escalate the incident to the security operations center (SOC) or relevant team for further analysis and to determine if additional systems may be affected."
+    ],
+    "kibana.alert.rule.max_signals": [
+      1000
+    ],
+    "signal.rule.author": [
+      "Elastic"
+    ],
+    "kibana.alert.rule.risk_score": [
+      47
+    ],
+    "Events.dll.path": [
+      "C:\\Windows\\System32\\wbem\\wbemprox.dll"
+    ],
+    "process.code_signature.status": [
+      "errorUntrustedRoot"
+    ],
+    "signal.original_event.dataset": [
+      "endpoint.alerts"
+    ],
+    "kibana.alert.rule.consumer": [
+      "siem"
+    ],
+    "dll.Ext.code_signature.exists": [
+      true
+    ],
+    "Events.dll.pe.file_version": [
+      "10.0.20348.1 (WinBuild.160101.0800)"
+    ],
+    "kibana.alert.rule.category": [
+      "Custom Query Rule"
+    ],
+    "process.thread.Ext.call_stack.callsite_leading_bytes": [
+      "c9488944243031c048897c2440c74424280300000089442420ff1584fff8ff48897424204c8d0dd812fdff31d241b801000000488d0dd912fdffff156bfff8ff"
+    ],
+    "event.action": [
+      "rule_detection"
+    ],
+    "event.ingested": [
+      "2026-08-22T00:39:28.000Z"
+    ],
+    "@timestamp": [
+      "2026-08-22T00:40:17.959Z"
+    ],
+    "kibana.alert.original_event.action": [
+      "rule_detection"
+    ],
+    "process.parent.code_signature.thumbprint_sha256": [
+      "a6a3d72f444aa7a05587ed6c275f07cc13949a6d3d6b8bb311cfb704dd4f9e14"
+    ],
+    "data_stream.dataset": [
+      "endpoint.alerts"
+    ],
+    "kibana.alert.original_event.agent_id_status": [
+      "verified"
+    ],
+    "signal.rule.timestamp_override": [
+      "event.ingested"
+    ],
+    "host.risk.calculated_level": [
+      "Moderate"
+    ],
+    "kibana.alert.rule.execution.uuid": [
+      "4df126b8-5b55-420d-844b-e69d71176d20"
+    ],
+    "kibana.alert.uuid": [
+      "7c68ae957366f5feb11662d7627762bfaa7355dc3574b1a1e9135bee3754b07c"
+    ],
+    "signal.rule.note": [
+      "## Triage and analysis\n\n> **Disclaimer**:\n> This investigation guide was created using generative AI technology and has been reviewed to improve its accuracy and relevance. While every effort has been made to ensure its quality, we recommend validating the content and adapting it to suit your specific environment and operational needs.\n\n### Investigating Endpoint Security (Elastic Defend)\n\nElastic Defend is a robust endpoint security solution that monitors and protects systems by analyzing events and generating alerts for suspicious activities. Adversaries may exploit endpoints by executing unauthorized code or manipulating system processes. The detection rule leverages event data to identify alerts from Elastic Defend, focusing on potential threats while excluding non-relevant modules, thus enabling timely investigation of endpoint anomalies.\n\n### Possible investigation steps\n\n- Review the alert details to understand the specific event.kind:alert and event.module: endpoint that triggered the alert, ensuring it is not related to the excluded endgame module.\n- Examine the timeline of events leading up to the alert to identify any unusual or unauthorized activities, such as unexpected process executions or system changes.\n- Correlate the alert with other security events or logs from the same endpoint to gather additional context and determine if there is a pattern of suspicious behavior.\n- Investigate the source and destination of any network connections associated with the alert to identify potential command and control activity or data exfiltration attempts.\n- Check for any recent changes or updates to the endpoint's software or configuration that could explain the alert, ensuring they are legitimate and authorized.\n- Assess the risk score and severity of the alert in conjunction with other alerts from the same endpoint to prioritize the investigation and response efforts.\n\n### False positive analysis\n\n- Alerts triggered by routine software updates can be false positives. Users can create exceptions for known update processes to prevent unnecessary alerts.\n- System maintenance activities, such as scheduled scans or backups, may generate alerts. Exclude these activities by identifying their specific event signatures and adding them to the exception list.\n- Legitimate administrative actions, like remote desktop sessions or script executions by IT staff, might be flagged. Define exceptions for these actions by correlating them with authorized user accounts or IP addresses.\n- Frequent alerts from non-malicious applications that interact with system processes can be excluded by whitelisting these applications based on their hash or path.\n- Network monitoring tools that simulate attack patterns for testing purposes may trigger alerts. Exclude these tools by specifying their known behaviors and IP ranges in the exception settings.\n\n### Response and remediation\n\n- Isolate the affected endpoint immediately to prevent further unauthorized access or lateral movement within the network.\n- Analyze the alert details to identify the specific unauthorized code or process manipulation involved, and terminate any malicious processes identified.\n- Remove any unauthorized code or files from the affected endpoint, ensuring that all traces of the threat are eradicated.\n- Conduct a thorough review of system logs and event data to identify any additional indicators of compromise or related suspicious activities.\n- Update endpoint security configurations and signatures to prevent similar threats from exploiting the same vulnerabilities in the future.\n- Restore the affected endpoint from a known good backup if necessary, ensuring that the system is free from any residual threats.\n- Escalate the incident to the security operations center (SOC) or relevant team for further analysis and to determine if additional systems may be affected."
+    ],
+    "Events.dll.pe.imphash": [
+      "e3ff7b01badb5f37f70266a24aec8ff7"
+    ],
+    "dll.pe.file_version": [
+      "10.0.20348.1 (WinBuild.160101.0800)"
+    ],
+    "Endpoint.policy.applied.artifacts.user.identifiers.name": [
+      "endpoint-blocklist-windows-v1",
+      "endpoint-eventfilterlist-windows-v1",
+      "endpoint-exceptionlist-windows-v1",
+      "endpoint-hostisolationexceptionlist-windows-v1",
+      "endpoint-trusteddevicelist-windows-v1",
+      "endpoint-trustlist-windows-v1"
+    ],
+    "signal.rule.license": [
+      "Elastic License v2"
+    ],
+    "dll.pe.imphash": [
+      "e3ff7b01badb5f37f70266a24aec8ff7"
+    ],
+    "kibana.alert.rule.rule_id": [
+      "9a1a2dae-0b5f-4c3d-8305-a268d404c306"
+    ],
+    "signal.rule.type": [
+      "query"
+    ],
+    "Endpoint.policy.applied.version": [
+      "8"
+    ],
+    "Events.process.thread.Ext.call_stack.callsite_leading_bytes": [
+      "c9488944243031c048897c2440c74424280300000089442420ff1584fff8ff48897424204c8d0dd812fdff31d241b801000000488d0dd912fdffff156bfff8ff"
+    ],
+    "signal.rule.rule_name_override": [
+      "message"
+    ],
+    "Events.process.Ext.code_signature.exists": [
+      true
+    ],
+    "user.risk.calculated_level": [
+      "Moderate"
+    ],
+    "kibana.alert.rule.risk_score_mapping.field": [
+      "event.risk_score"
+    ],
+    "Events._label": [
+      "wmi_loaded_susp_stack"
+    ],
+    "process.pid": [
+      10500
+    ],
+    "signal.rule.created_by": [
+      "elastic"
+    ],
+    "signal.rule.interval": [
+      "1m"
+    ],
+    "dll.code_signature.status": [
+      "trusted"
+    ],
+    "kibana.alert.rule.created_by": [
+      "elastic"
+    ],
+    "kibana.alert.rule.timestamp_override": [
+      "event.ingested"
+    ],
+    "Events.process.code_signature.thumbprint_sha256": [
+      "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518"
+    ],
+    "Events.process.entity_id": [
+      "ZvQpucKhCAX1zXB097nSbw"
+    ],
+    "process.code_signature.subject_name": [
+      "AppleWin"
+    ],
+    "process.parent.entity_id": [
+      "BkSmuFMHR7aR1uACM8Y+3A"
+    ],
+    "dll.Ext.code_signature.thumbprint_sha256": [
+      "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14"
+    ],
+    "kibana.alert.rule.name": [
+      "Malicious Behavior Detection Alert: Suspicious WMI Library Load"
+    ],
+    "process.parent.Ext.code_signature.status": [
+      "trusted"
+    ],
+    "Events.dll.code_signature.thumbprint_sha256": [
+      "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14"
+    ],
+    "host.name": [
+      "wkstn01"
+    ],
+    "event.kind": [
+      "signal"
+    ],
+    "process.code_signature.thumbprint_sha256": [
+      "545d95a92aac7bfe0bc8918fc400d798864dba013cd1cae7a5306d8d854c9518"
+    ],
+    "process.code_signature.trusted": [
+      false
+    ],
+    "signal.rule.created_at": [
+      "2026-08-15T09:54:26.472Z"
+    ],
+    "kibana.alert.workflow_status": [
+      "open"
+    ],
+    "Events.host.name": [
+      "wkstn01"
+    ],
+    "kibana.alert.original_event.created": [
+      "2026-08-22T00:39:28.194Z"
+    ],
+    "threat.tactic.id": [
+      "TA0002"
+    ],
+    "Events.host.os.platform": [
+      "windows"
+    ],
+    "Events.host.architecture": [
+      "x86_64"
+    ],
+    "Events.host.os.kernel": [
+      "21H2 (10.0.20348.587)"
+    ],
+    "threat.tactic.name": [
+      "Execution"
+    ],
+    "kibana.alert.reason": [
+      "malware, intrusion_detection event with process AppleWin.exe, parent process explorer.exe, by low on wkstn01 created critical alert Malicious Behavior Detection Alert: Suspicious WMI Library Load."
+    ],
+    "data_stream.type": [
+      "logs"
+    ],
+    "process.parent.args_count": [
+      1
+    ],
+    "Events.dll.Ext.load_index": [
+      1
+    ],
+    "signal.ancestors.id": [
+      "AaAm6JJ9Ki6JysKHMJSu"
+    ],
+    "signal.original_time": [
+      "2026-08-22T00:39:28.194Z"
+    ],
+    "ecs.version": [
+      "8.10.0"
+    ],
+    "signal.rule.severity": [
+      "critical"
+    ],
+    "event.created": [
+      "2026-08-22T00:39:28.194Z"
+    ],
+    "kibana.alert.depth": [
+      1
+    ],
+    "process.thread.Ext.call_stack_summary": [
+      "ntdll.dll|kernelbase.dll|combase.dll|Unbacked"
+    ],
+    "Events.process.thread.Ext.call_stack.symbol_info": [
+      "C:\\Windows\\System32\\ntdll.dll!NtMapViewOfSection+0x14",
+      "C:\\Windows\\System32\\ntdll.dll!LdrStandardizeSystemPath+0x910",
+      "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x526",
+      "C:\\Windows\\System32\\ntdll.dll!LdrControlFlowGuardEnforced+0x3c",
+      "C:\\Windows\\System32\\ntdll.dll!RtlpGetDeviceFamilyInfoEnum+0x850",
+      "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x488",
+      "C:\\Windows\\System32\\ntdll.dll!RtlpGetSystemDefaultUILanguage+0x207",
+      "C:\\Windows\\System32\\ntdll.dll!LdrpResGetMappingSize+0x1458",
+      "C:\\Windows\\System32\\ntdll.dll!LdrGetDllHandleEx+0x568",
+      "C:\\Windows\\System32\\ntdll.dll!LdrLoadDll+0x106",
+      "C:\\Windows\\System32\\KernelBase.dll!LoadLibraryExW+0x172",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2871",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2768",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x251e",
+      "C:\\Windows\\System32\\combase.dll!CoRegisterClassObject+0x2289",
+      "C:\\Windows\\System32\\combase.dll!RoGetActivationFactory+0x1720",
+      "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1831",
+      "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x11d0",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f",
+      "C:\\Windows\\System32\\combase.dll!CoGetCallContext+0x1a1c",
+      "C:\\Windows\\System32\\combase.dll!RoRegisterForApartmentShutdown+0x648",
+      "C:\\Windows\\System32\\combase.dll!CoDecrementMTAUsage+0x92c",
+      "C:\\Windows\\System32\\combase.dll!CoSwitchCallContext+0x3e9e",
+      "C:\\Windows\\System32\\combase.dll!HWND_UserUnmarshal+0x264",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x10c8",
+      "C:\\Windows\\System32\\combase.dll!CoUninitialize+0x913f",
+      "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0xd3a",
+      "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x2df",
+      "C:\\Windows\\System32\\combase.dll!CoCreateInstance+0x10c",
+      "Unbacked+0xad"
+    ],
+    "kibana.alert.rule.revision": [
+      0
+    ],
+    "Events.message": [
+      "Endpoint DLL load event"
+    ],
+    "signal.rule.version": [
+      "108"
+    ],
+    "kibana.alert.status": [
+      "active"
+    ],
+    "kibana.alert.last_detected": [
+      "2026-08-22T00:40:17.996Z"
+    ],
+    "Events.host.os.family": [
+      "windows"
+    ],
+    "threat.tactic.reference": [
+      "https://attack.mitre.org/tactics/TA0002/"
+    ],
+    "Events.user.domain": [
+      "KR"
+    ],
+    "kibana.alert.rule.severity_mapping.field": [
+      "event.severity",
+      "event.severity",
+      "event.severity",
+      "event.severity"
+    ],
+    "Events.dll.Ext.code_signature.thumbprint_sha256": [
+      "d837a7b77fffecd200b2fa8a21937c2c8fd3cf666785eb39d0095b754813eb14"
+    ],
+    "kibana.alert.original_event.dataset": [
+      "endpoint.alerts"
+    ],
+    "Events._state": [
+      0
+    ],
+    "process.parent.code_signature.exists": [
+      true
+    ],
+    "kibana.alert.rule.rule_type_id": [
+      "siem.queryRule"
+    ],
+    "signal.rule.rule_id": [
+      "9a1a2dae-0b5f-4c3d-8305-a268d404c306"
+    ],
+    "process.executable": [
+      "C:\\ProgramData\\imonclient\\AppleWin.exe"
+    ],
+    "Events.process.thread.Ext.call_stack.callsite_trailing_bytes": [
+      "89c385c0791a4189c0488d155ffffcffb90d000000ff1558fff8ffe9ea000000488d0d74fffcffff154efff8ff4889c74885c00f84a4000000488b0e4531d245"
+    ],
+    "kibana.alert.original_event.severity": [
+      99
+    ],
+    "process.parent.code_signature.subject_name": [
+      "Microsoft Windows"
+    ],
+    "process.parent.executable": [
+      "C:\\Windows\\explorer.exe"
+    ],
+    "Events.host.os.version": [
+      "21H2 (10.0.20348.587)"
+    ],
+    "process.args_count": [
+      1
+    ],
+    "data_stream.namespace": [
+      "default"
+    ],
+    "kibana.alert.rule.updated_at": [
+      "2026-08-15T09:54:26.472Z"
+    ],
+    "Events.event.id": [
+      "OcXRrdm2iMW/MP/E++++GuxS"
+    ],
+    "dll.code_signature.subject_name": [
+      "Microsoft Windows"
+    ],
+    "kibana.alert.rule.author": [
+      "Elastic"
+    ],
+    "process.Ext.code_signature.exists": [
+      true
+    ],
+    "Endpoint.policy.applied.endpoint_policy_version": [
+      "6"
+    ],
+    "Events.process.pid": [
+      10500
+    ],
+    "process.parent.args": [
+      "C:\\Windows\\Explorer.EXE"
+    ],
+    "signal.original_event.action": [
+      "rule_detection"
+    ],
+    "kibana.alert.rule.created_at": [
+      "2026-08-15T09:54:26.472Z"
+    ],
+    "process.pe.imphash": [
+      "c99d9eab70bb0f1a392814ad1f65fc4d"
+    ],
+    "signal.rule.to": [
+      "now"
+    ],
+    "event.type": [
+      "info",
+      "allowed"
+    ],
+    "process.command_line": [
+      "\"C:\\ProgramData\\imonclient\\AppleWin.exe\" "
+    ],
+    "kibana.alert.rule.execution.type": [
+      "scheduled"
+    ],
+    "Events.process.code_signature.exists": [
+      true
+    ],
+    "kibana.alert.rule.exceptions_list.id": [
+      "endpoint_list"
+    ],
+    "event.dataset": [
+      "endpoint.alerts"
+    ],
+    "kibana.alert.original_time": [
+      "2026-08-22T00:39:28.194Z"
+    ]
+  }
+}

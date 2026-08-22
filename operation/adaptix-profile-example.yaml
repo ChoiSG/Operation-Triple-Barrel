@@ -1,0 +1,87 @@
+## ============================================================
+## AdaptixC2 — Example Profile
+## Full Server + Listener Profile
+## Theme: AWS CloudFront CDN fronting a web application
+## ============================================================
+## Launch:  ./adaptixserver -debug -profile /path/to/adaptix-profile.yaml
+## ============================================================
+
+# ==============================================================
+#  TEAMSERVER
+# ==============================================================
+Teamserver:
+  interface: "0.0.0.0"
+  port: 4321
+  endpoint: "/endpoint"
+  password: "CHANGE_ME"
+  only_password: true
+  operators:
+    operator1: "CHANGE_ME"
+    operator2: "CHANGE_ME"
+  cert: "server.rsa.crt"
+  key: "server.rsa.key"
+
+  extenders:
+    # ── Stock listeners & agents ──
+    - "extenders/beacon_listener_http/config.yaml"
+    - "extenders/beacon_listener_tcp/config.yaml"
+    - "extenders/beacon_listener_smb/config.yaml"
+    - "extenders/beacon_listener_dns/config.yaml"
+    - "extenders/beacon_agent/config.yaml"
+    - "extenders/gopher_listener_tcp/config.yaml"
+    - "extenders/gopher_agent/config.yaml"
+
+  axscripts:
+    # ── Extension Kit (AD, Creds, Elevation, Execution, …) ──
+    - "../Extension-Kit/extension-kit.axs"
+
+    # ── Operation BOFs ──
+    - "/path/to/op-triple-barrel/operation/persistask-bof/persistask.axs"
+    - "/path/to/op-triple-barrel/operation/petitpotam-bof/petitpotam.axs"
+    - "/path/to/op-triple-barrel/operation/smbtakeover-bof/smbtakeover.axs"
+
+  access_token_live_hours: 12
+  refresh_token_live_hours: 168
+
+
+# ==============================================================
+#  HTTP SERVER (CloudFront themed)
+# ==============================================================
+HttpServer:
+
+  # ── Default error page (non-agent / scanner requests) ───────
+  error:
+    status: 403
+    headers:
+      Content-Type: "text/html; charset=UTF-8"
+      Server: "CloudFront"
+      X-Cache: "Error from cloudfront"
+      X-Amz-Cf-Pop: "IAD89-P2"
+      Via: "1.1 xxxxxxxxxxxxxxxxxxxx.cloudfront.net (CloudFront)"
+      X-Amz-Cf-Id: "xxxxxxxxxxxxxxxxxxxx=="
+    page: "/path/to/op-triple-barrel/operation/cloudfront-error.html"
+
+  # ── HTTP tuning ─────────────────────────────────────────────
+  http:
+    max_header_bytes: 8192
+    read_header_timeout_sec: 0
+    read_timeout_sec: 0
+    write_timeout_sec: 0
+    idle_timeout_sec: 0
+    request_timeout_sec: 300
+    request_timeout_message: "504 Gateway Timeout"
+    disable_keep_alives: false
+    enable_http2: true
+
+  # ── TLS ─────────────────────────────────────────────────────
+  tls:
+    min_version: "TLS1.2"
+    max_version: "TLS1.3"
+    prefer_server_cipher_suites: false
+    cipher_suites:
+      - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+      - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+      - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+      - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+      - "TLS_RSA_WITH_AES_128_GCM_SHA256"
+      - "TLS_RSA_WITH_AES_256_GCM_SHA384"

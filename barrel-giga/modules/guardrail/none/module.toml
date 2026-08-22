@@ -1,0 +1,8 @@
+name = "none"
+slot = "guardrail"
+fragment = "fragment.c.j2"
+required_imports = []
+requires = []
+conflicts = []
+exports = ["sg_guardrail_allows"]
+

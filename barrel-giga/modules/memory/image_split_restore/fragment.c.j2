@@ -1,0 +1,27 @@
+#define SG_PAGE_RW 0x04UL
+
+static PVOID sg_memory_allocate(SIZE_T size, DWORD *memory_state)
+{
+    DWORD old_protection = 0;
+    PVOID address = (PVOID)sg_destination_address();
+
+    if (!VirtualProtect(address, size, SG_PAGE_RW, &old_protection)) {
+        return NULL;
+    }
+    *memory_state = old_protection;
+    return address;
+}
+
+static BOOL sg_memory_finalize(
+    PVOID address,
+    SIZE_T size,
+    DWORD memory_state)
+{
+    DWORD writable_protection = 0;
+    if (!VirtualProtect(address, size, memory_state, &writable_protection)) {
+        return 0;
+    }
+    return FlushInstructionCache((HANDLE)(-1), address, size);
+}
+
+

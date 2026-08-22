@@ -1,0 +1,21 @@
+# build inputs and outputs
+bin/
+output/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+build/
+dist/
+*.egg-info/
+
+# environment
+docs/lab.md
+
+# misc
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+name = "thread_keepalive"
+slot = "execute"
+fragment = "fragment.c.j2"
+fixture_only = false
+required_imports = [
+  "KERNEL32.dll!Sleep",
+]
+requires = []
+conflicts = []
+exports = ["sg_execute", "sg_message_box_w"]
+
+[config]
+payload_kind = "raw"

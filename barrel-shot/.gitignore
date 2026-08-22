@@ -1,0 +1,26 @@
+# binaries
+barrel-shot
+barrel-shot.exe
+barrel-shot-agent
+*.dll
+*.exe
+
+# generated
+dll/proxy_gen.c
+
+# keys
+*.key
+*.pem
+
+# lab
+docs/lab.md
+docs/lab.env
+
+# test
+test-sideload/
+
+# references (cloned repos)
+references/
+
+# logs
+*.log

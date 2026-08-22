@@ -1,0 +1,23 @@
+name = "image_split_restore"
+slot = "memory"
+fragment = "fragment.c.j2"
+required_imports = [
+  "KERNEL32.dll!VirtualProtect",
+  "KERNEL32.dll!FlushInstructionCache",
+]
+requires = []
+conflicts = []
+exports = ["sg_memory_allocate", "sg_memory_finalize"]
+
+[config]
+payload_alignment = 16
+execution_alignment = 4096
+placement_mode = "split_image"
+page_isolation = true
+restores_original_protection = true
+instruction_cache_flush = true
+protection_transitions = [
+  "destination:original_to_rw",
+  "destination:rw_to_original",
+]
+

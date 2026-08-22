@@ -1,0 +1,14 @@
+name = "function_backdoor"
+slot = "pe_invoke"
+fragment = "fragment.c.j2"
+host_behavior = "entry_function_backdoored"
+required_imports = ["KERNEL32.dll!ExitProcess"]
+requires = []
+conflicts = []
+exports = ["sg_entry", "sg_fail", "sg_finish"]
+
+[config]
+host_kind = "exe"
+invocation_strategy = "backdoor"
+invocation_target = "entrypoint"
+

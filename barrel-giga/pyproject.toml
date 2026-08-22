@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "barrel-giga"
+version = "0.1.0"
+description = "Fixed-recipe x64 PE carrier builder"
+requires-python = ">=3.11"
+dependencies = [
+    "capstone>=5.0.3,<6",
+    "cryptography>=45,<48",
+    "Jinja2>=3.1,<4",
+    "pefile>=2024.8.26",
+]
+
+[project.scripts]
+barrel-giga = "barrel_giga.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["barrel_giga*"]

