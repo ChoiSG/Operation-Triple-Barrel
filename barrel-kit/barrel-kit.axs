@@ -332,6 +332,7 @@ if (!kit || !dll || !output) {
             "test -f " + shellQuote(kit + "/libtcg.x64.zip") + " || { echo '[-] libtcg.x64.zip not found' >&2; exit 1; }",
             "mkdir -p " + shellQuote(dirname(output)),
             "make INITIAL_CHECKIN_DELAY_SECONDS=" + String(initialDelay) + " clean all",
+            "rm -f " + shellQuote(output),
             "java -jar " + shellQuote(kit + "/crystalpalace.jar")
                 + " link " + shellQuote(kit + "/loader.spec")
                 + " " + shellQuote(scrubbedDll)

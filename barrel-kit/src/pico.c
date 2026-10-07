@@ -74,7 +74,7 @@ void setup_memory(MEMORY_LAYOUT * layout)
     if (layout == NULL)
         return;
 
-    g_memory = *layout;
+    __movsb((unsigned char *) &g_memory, (const unsigned char *) layout, sizeof(g_memory));
 
     /* mark PICO code as a valid CFG target */
     if (g_memory.Pico.Code != NULL && g_memory.Pico.CodeSize != 0)

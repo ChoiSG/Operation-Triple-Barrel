@@ -14,7 +14,8 @@ OBJECTS = bin/loader.x64.o            \
           bin/stitch_stub.x64.bin     \
           bin/cfg_gadgets.x64.o       \
           bin/sleep_kraken_adv.x64.o  \
-          bin/cleanup.x64.o
+          bin/cleanup.x64.o           \
+          bin/crt.x64.o
 
 all: $(OBJECTS)
 
@@ -65,6 +66,9 @@ bin/sleep_kraken_adv.x64.o: bin src/sleep_kraken_adv.c src/mask.h src/memory.h
 
 bin/cleanup.x64.o: bin src/cleanup.c src/cleanup.h src/memory.h src/cfg.h
 	$(CC_64) $(CFLAGS) src/cleanup.c -o $@
+
+bin/crt.x64.o: bin src/crt.c
+	$(CC_64) $(CFLAGS) src/crt.c -o $@
 
 clean:
 	rm -f bin/*.o bin/*.bin

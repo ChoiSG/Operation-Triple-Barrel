@@ -26,6 +26,9 @@ x64:
     load "bin/cleanup.x64.o"
         merge
 
+    load "bin/crt.x64.o"
+        merge
+
     exportfunc "setup_hooks"     "__tag_setup_hooks"
     exportfunc "setup_memory"    "__tag_setup_memory"
     exportfunc "patch_dispatch"  "__tag_patch_dispatch"

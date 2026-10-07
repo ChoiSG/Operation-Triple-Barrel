@@ -185,6 +185,7 @@ PY
 
 # 5. Link with Crystal Palace
 echo "[*] Linking with Crystal Palace..."
+rm -f "$OUTPUT/agent.x64.bin"
 $CPL link "$BK_DIR/loader.spec" "$SCRUBBED_DLL" "$OUTPUT/agent.x64.bin"
 SIZE=$(stat -c%s "$OUTPUT/agent.x64.bin")
 echo "[+] PIC blob: $OUTPUT/agent.x64.bin ($SIZE bytes)"

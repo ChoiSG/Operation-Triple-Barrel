@@ -17,6 +17,9 @@ x64:
     load "bin/load_phantom.x64.o"
         merge
 
+    load "bin/crt.x64.o"
+        merge
+
     dfr "resolve" "ror13"
     mergelib "libtcg.x64.zip"
 
